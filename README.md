@@ -9,3 +9,5 @@ https://docs.google.com/document/d/1BP6RWqidqj7oUxgPIdlJMR34AXTERQlXsyrozAOwgho/
 
 ## Some libraries/programs we might use:
 https://wiki.python.org/moin/PythonInMusic
+### This one... is beautiful. 
+http://web.mit.edu/music21/doc/index.html
