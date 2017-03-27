@@ -1,0 +1,29 @@
+GUI - **kivy?
+    - pygame?
+    - tcanter?
+If web app, use Flask b/c more olin knowledge
+
+does it ever change key in the middle???
+  (modulate?)
+
+data storage? where do we store them?
+  -sneakernet (flashdrives, etc.)
+  -copyright?
+    if not, put them on folder on laptop
+  -have a script that downloads them all into a folder
+
+
+pymusic
+  downloadmusic.py
+  data
+    gitignore ALL
+    (keep all the data on flashdrive or computers)
+
+*if deploy as web app, check how to store music on the club
+
+stretch goal: try doing something other than Markov Chains
+
+Markov Chain with intervals instead of notes specifically
+
+what's your evaluation metric for how good the song is?
+  once we know, then modify the program to make that more common
