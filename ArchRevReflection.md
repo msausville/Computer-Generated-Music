@@ -14,7 +14,7 @@
 
 
 
-#### Review process reflection
+### Review process reflection
 
 ##### How did the review go?
 A technical review was not the most useful thing for our team at that moment. We were at a weird point where we had gotten most of our basics fleshed out but had not started any of the hard coding besides finding libraries. We didn’t need help with our main ideas, but we didn’t yet need too much technical help. Given that, from a presentation standpoint, we were ready to talk about what we had and didn’t have many stumbles or major gaps in knowledge.
