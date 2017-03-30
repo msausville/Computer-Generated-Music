@@ -4,14 +4,7 @@ GIT NOTES
 
 How to push code that works:
 
-<<<<<<< HEAD
--git checkout master
--git pull
--git checkout allison
--git merge master
--git checkout master
--git merge allison
-=======
+
 -add stuff to your commit
 -commit your stuff to your branch
 -push to your branch with git push (while on branch)
@@ -24,7 +17,7 @@ How to push code that works:
 -Fix merge conflicts
 -git checkout master (go back to master)
 -git merge allison (move new stuff in your branch back to master.
->>>>>>> master
+
 
 
 
