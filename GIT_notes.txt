@@ -1,0 +1,22 @@
+GIT NOTES
+
+
+
+How to push code that works:
+
+-git checkout master
+-git pull
+-git checkout allison
+-git merge master
+-git checkout master 
+-git merge allison
+
+
+
+To push to master do:
+
+	git push origin master
+
+To push to branch do:
+
+	git push origin allison
