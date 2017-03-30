@@ -20,7 +20,7 @@
 A technical review was not the most useful thing for our team at that moment. We were at a weird point where we had gotten most of our basics fleshed out but had not started any of the hard coding besides finding libraries. We didn’t need help with our main ideas, but we didn’t yet need too much technical help. Given that, from a presentation standpoint, we were ready to talk about what we had and didn’t have many stumbles or major gaps in knowledge.
 
 ##### Did you get answers to your key questions?
-	Yes, we received advice for several aspects. We even got answers to questions we did not think of (at least with the UI question). Oliver also mentioned the possibility of song evaluation and autonomous tweaking, which could be a cool stretch goal to consider.
+Yes, we received advice for several aspects. We even got answers to questions we did not think of (at least with the UI question). Oliver also mentioned the possibility of song evaluation and autonomous tweaking, which could be a cool stretch goal to consider.
 
 ##### Did you provide too much/too little context for your audience?
 We provided plenty of background information into music specifics. Some parts had more opportunity to be explained more than others. We are lucky to have several members of our group that are music experts who can explain what we need to make music.
@@ -29,5 +29,5 @@ We provided plenty of background information into music specifics. Some parts ha
 We all talked about the things we had planned on talking about but as questions were raised we spent more time expanding on certain topics and brainstorming.
 
 ##### What could you do next time to have an even more effective technical review?
-	Could have practiced more as a team.
-	Could have come up with more questions.
+Could have practiced more as a team.
+Could have come up with more questions.
