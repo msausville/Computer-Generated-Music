@@ -1,6 +1,6 @@
 GIT NOTES
 
-
+# assuming allison is the name of your branch
 
 How to push code that works:
 
@@ -8,7 +8,7 @@ How to push code that works:
 -git pull
 -git checkout allison
 -git merge master
--git checkout master 
+-git checkout master
 -git merge allison
 
 
