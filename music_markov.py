@@ -10,11 +10,25 @@ hannah.kolano@students.olin.edu
 Next step: fix the markov function
 '''
 
+
+# All the imports
+import random
+
+
+# global variables
+m_dict = dict()                 # markov dictionary
+pre_len = 1                     # prefix length
+# num_measures = 8                # number of desired measures, in 4/4, not implemented yet
+
+
 # Important Classes
 class Song:
     def __init__(self, notes_list):
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
+
+    def add_to_analysis(self):
+        add_to_markov_dict(self.intervals)
 
 
 class Note:
@@ -24,19 +38,34 @@ class Note:
 
 
 # Functions
-def con_to_int(song):
-    '''takes a list of concrete notes and returns a list of note intervals'''
+def con_to_int(clist):
+    """takes a list of concrete notes and returns a list of note intervals"""
     int_list = [0]
-    for i in range(len(song)-1):
-        int_list.append(song[i+1].tone - song[i].tone)
+    for i in range(len(clist)-1):
+        int_list.append(clist[i+1].tone - clist[i].tone)
     return int_list
 
 
-def create_markov_dict(song):
-    '''takes a song object and returns a markov dictionary'''
-    for interval in song.intervals:
-        m_dict.get[interval] = m_dict.get(interval) + PREVIOUSINTERVAL
+def add_to_markov_dict(intervals):
+    """takes a song object and creates a markov dictionary
+    keys are PREFIX tuples
+    values is a list of integers that are SUFFIXES"""
+    for i in range(len(intervals)-pre_len):
+        prefix = tuple(intervals[i:i+pre_len])
+        suffix = intervals[i+pre_len]
+        m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
 
+
+def create_markov_chain(mark_dict):
+    new_melody = list(random.choice(list(mark_dict.keys())))
+    for i in range(32 - pre_len):
+        options = m_dict[tuple(new_melody[i:i+pre_len])]
+        next_note = random.choice(options)
+        new_melody.append(next_note)
+    return new_melody
+
+# options = prefixes_dict[tuple(prefix)]
+#         next_word = random.choice(options)
 
 # Initialize some songs
 baa_baa_concrete = [Note(0, 1), Note(0, 1), Note(7, 1), Note(7, 1),                 # baa baa black sheep
@@ -89,6 +118,10 @@ ThisOld = Song(this_old_concrete)
 
 
 # Actually run stuff
-m_dict = dict()
-pre_len = 1
-print(MaryHad.intervals)
+ThisOld.add_to_analysis()
+MaryHad.add_to_analysis()
+BaaBaa.add_to_analysis()
+HotCross.add_to_analysis()
+
+chain = create_markov_chain(m_dict)
+print(chain)
