@@ -1,0 +1,30 @@
+GIT NOTES
+
+# assuming allison is the name of your branch
+
+How to push code that works:
+
+
+-add stuff to your commit
+-commit your stuff to your branch
+-push to your branch with git push (while on branch)
+
+
+-git checkout master (moves your computer to the master branch)
+-git pull (gets most updated stuff from master)
+-git checkout allison (moves you to your branch)
+-git merge master (adds the new stuff from master to your code, so you can resolve any merge conflicts without messing up the master branch)
+-Fix merge conflicts
+-git checkout master (go back to master)
+-git merge allison (move new stuff in your branch back to master.
+
+
+
+
+To push to master do:
+
+	git push origin master
+
+To push to branch do:
+
+	git push origin allison
