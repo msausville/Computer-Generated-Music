@@ -57,6 +57,7 @@ def add_to_markov_dict(intervals):
 
 
 def create_markov_chain(mark_dict):
+    """takes a markov dicionary and returns a generated list of note intervals"""
     new_melody = list(random.choice(list(mark_dict.keys())))
     for i in range(32 - pre_len):
         options = m_dict[tuple(new_melody[i:i+pre_len])]
