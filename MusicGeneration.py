@@ -1,4 +1,5 @@
 """Main File for Music Generation
+Purpose: Create computer-generated music
 Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
 Hannah Kolano, Meaghen Sausville"""
 from tkinter import *
@@ -15,10 +16,12 @@ class Note:
 
 class Song:
     def __init__(self, notes_list):
+        """creates a song object from a list of notes"""
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
 
     def add_to_analysis(self):
+        """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
             prefix = tuple(intervals[i:i + pre_len])
@@ -83,12 +86,14 @@ def MIDI_to_song(MIDI_info):
 	"""
 	pass
 
-def concrete_to_intraval(note_list):
+
+def con_to_int(note_list):
     """takes a song object and returns a list of note intervals"""
-	int_list = [0]
+    int_list = [0]
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
+
 
 def harmony_analysis(notes):
 	"""
