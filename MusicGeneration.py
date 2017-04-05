@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import font
 import mido
+from musicreader import play_music
 
 class Note:
     def __init__(self, tone = 60, volume = 60, duration = 0):
@@ -116,9 +117,9 @@ def play_song(song_intervals):
 
 def main(filename):
 	"""
-	Performs Markov analysis on many songs and 
-	input: takes an input of all file names 
-	output: plays a song 
+	Performs Markov analysis on many songs and
+	input: takes an input of all file names
+	output: plays a song
 	"""
 	list_of_songs = filename
     m_dict = dict()
@@ -131,8 +132,8 @@ def main(filename):
 	play_song(new_intervals)
 
 if __name__ == "__main__":
-    main('filename')
-
+    # main('filename')
+    play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
 #fonts
@@ -149,7 +150,7 @@ if __name__ == "__main__":
 # def PlaySong():
 # 	msg = messagebox.showinfo("Song Box", "Playing Song")
 
-# #Widgits 
+# #Widgits
 # E = Listbox(top, selectmode = SINGLE, height = 5, width = 10)
 # P = Button(top, text = "Play", command = PlaySong, activebackground = "green", height = 5, width = 10)
 # W = Text(top, width = 60, height = 1, bg = "yellow")
@@ -168,6 +169,3 @@ if __name__ == "__main__":
 
 
 # top.mainloop()
-
-
-
