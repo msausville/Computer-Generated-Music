@@ -1,4 +1,6 @@
-"""Main File for Music Gerneation"""
+"""Main File for Music Generation
+Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
+Hannah Kolano, Meaghen Sausville"""
 from tkinter import *
 from tkinter import messagebox
 from tkinter import font
@@ -6,51 +8,64 @@ import mido
 from musicreader import play_music
 
 class Note:
-    def __init__(self,tone = 60, volume = 60, duration = 0):
+    def __init__(self, tone = 60, volume = 60, duration = 0):
         self.tone = tone
         self.duration = duration
         self.volume = volume
 
-# def read_midi(filename):
-#     mid = mido.MidiFile(filename)
-#     print(mid)
-#     list_of_notes = []
-#     open_notes = []
-#     for i, track in enumerate(mid.tracks):
-#         print('Track {}: {}'.format(i, track.name))
-#         # test_track = track[350]
-#         # print(track[350])
-#         for j in range(len(track)):
-#             msg = track[j]
-#             print(msg)
-#             # print(msg.type)
-#             is_new_note = True
-#             may_be_note = False
-#             if msg.type == 'note_on' or msg.type == 'note_off':
-#                 may_be_note = True
-#             for old_note in open_notes:
-#                 print(is_new_note)
-#                 old_note.duration += msg.time
-#                 if may_be_note:
-#                     if old_note.tone == msg.note:
-#                         is_new_note = False
-#                         if msg.type == 'note_on':
-#                             if msg.velocity == 0:
-#                                 list_of_notes.append(old_note)
-#                                 open_notes.remove(old_note)
-#                         elif msg.type == 'note_off':
-#                             list_of_notes.append(old_note)
-#                             open_notes.remove(old_note)
-#
-#             if is_new_note and may_be_note:
-#                 new_note = Note(msg.note, msg.velocity)
-#                 open_notes.append(new_note);
-#             # try:
-#             #     nextmsg = track[j+1]
-#             #     # print(nextmsg.time)
-#             # except:
-#             #     pass
-#     return list_of_notes
+class Song:
+    def __init__(self, notes_list):
+        self.concrete = notes_list
+        self.intervals = con_to_int(self.concrete)
+
+    def add_to_analysis(self):
+        intervals = self.intervals
+        for i in range(len(intervals) - pre_len):
+            prefix = tuple(intervals[i:i + pre_len])
+            suffix = intervals[i + pre_len]
+            m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
+
+
+def read_midi(filename):
+    mid = mido.MidiFile(filename)
+    print(mid)
+    list_of_notes = []
+    open_notes = []
+    for i, track in enumerate(mid.tracks):
+        print('Track {}: {}'.format(i, track.name))
+        # test_track = track[350]
+        # print(track[350])
+        for j in range(len(track)):
+            msg = track[j]
+            print(msg)
+            # print(msg.type)
+            is_new_note = True
+            may_be_note = False
+            if msg.type == 'note_on' or msg.type == 'note_off':
+                may_be_note = True
+            for old_note in open_notes:
+                print(is_new_note)
+                old_note.duration += msg.time
+                if may_be_note:
+                    if old_note.tone == msg.note:
+                        is_new_note = False
+                        if msg.type == 'note_on':
+                            if msg.velocity == 0:
+                                list_of_notes.append(old_note)
+                                open_notes.remove(old_note)
+                        elif msg.type == 'note_off':
+                            list_of_notes.append(old_note)
+                            open_notes.remove(old_note)
+
+            if is_new_note and may_be_note:
+                new_note = Note(msg.note, msg.velocity)
+                open_notes.append(new_note);
+            # try:
+            #     nextmsg = track[j+1]
+            #     # print(nextmsg.time)
+            # except:
+            #     pass
+    return list_of_notes
 
 def MIDI_clean(filename):
 	"""
@@ -68,13 +83,12 @@ def MIDI_to_song(MIDI_info):
 	"""
 	pass
 
-def concrete_to_intraval(notes):
-	"""
-	Builds song intervals
-	input: list of notes
-	output: list of intervals
-	"""
-	pass
+def concrete_to_intraval(note_list):
+    """takes a song object and returns a list of note intervals"""
+	int_list = [0]
+    for i in range(len(note_list)-1):
+        int_list.append(note_list[i+1].tone - note_list[i].tone)
+    return int_list
 
 def harmony_analysis(notes):
 	"""
@@ -84,14 +98,14 @@ def harmony_analysis(notes):
 	"""
 	pass
 
-
-def Markov_dict(multi_song_intervals):
-	"""
-	Creates markov analysis of many song's intervals
-	input: list of intervals
-	output: new list of intervals
-	"""
-	pass
+def create_markov_chain(mark_dict, len_in_measures=32, pre_len=1):
+    """takes a markov dictionary and returns a generated list of note intervals"""
+    new_melody = list(random.choice(list(mark_dict.keys())))
+    for i in range(len_in_measures - pre_len):
+        options = m_dict[tuple(new_melody[i:i+pre_len])]
+        next_note = random.choice(options)
+        new_melody.append(next_note)
+    return new_melody
 
 def play_song(song_intervals):
 	"""
@@ -107,14 +121,14 @@ def main(filename):
 	input: takes an input of all file names
 	output: plays a song
 	"""
-	all_intervals = []
 	list_of_songs = filename
+    m_dict = dict()
 	for song in list_of_songs:
 		cleaned = MIDI_clean(filename)
-		new_song = MIDI_to_song(cleaned)
-		list_of_intervals = concrete_to_intraval(new_song)
-		all_intervals.append(list_of_intervals)
-	new_intervals =Markov_dict(all_intervals)
+		new_song_con = MIDI_to_song(cleaned)
+		NewSong = Song(new_song_con)
+		NewSong.add_to_analysis()
+        new_intervals = create_markov_chain(m_dict)
 	play_song(new_intervals)
 
 if __name__ == "__main__":
