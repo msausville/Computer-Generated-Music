@@ -38,11 +38,11 @@ class Note:
 
 
 # Functions
-def con_to_int(clist):
-    """takes a list of concrete notes and returns a list of note intervals"""
+def con_to_int(note_list):
+    """takes a song object and returns a list of note intervals"""
     int_list = [0]
-    for i in range(len(clist)-1):
-        int_list.append(clist[i+1].tone - clist[i].tone)
+    for i in range(len(note_list)-1):
+        int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
 
 
