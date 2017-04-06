@@ -1,4 +1,7 @@
-"""Main File for Music Gerneation"""
+"""Main File for Music Generation
+Purpose: Create computer-generated music
+Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
+Hannah Kolano, Meaghen Sausville"""
 from tkinter import *
 from tkinter import messagebox
 from tkinter import font
@@ -6,10 +9,24 @@ import mido
 from musicreader import play_music
 
 class Note:
-    def __init__(self,tone = 60, volume = 60, duration = 0):
+    def __init__(self, tone = 60, volume = 60, duration = 0):
         self.tone = tone
         self.duration = duration
         self.volume = volume
+
+class Song:
+    def __init__(self, notes_list):
+        """creates a song object from a list of notes"""
+        self.concrete = notes_list
+        self.intervals = con_to_int(self.concrete)
+
+    def add_to_analysis(self):
+        """hey Song, add yourself to the markov dictionary"""
+        intervals = self.intervals
+        for i in range(len(intervals) - pre_len):
+            prefix = tuple(intervals[i:i + pre_len])
+            suffix = intervals[i + pre_len]
+            m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
 
 def read_midi(filename):
     mid = mido.MidiFile(filename)
@@ -68,13 +85,14 @@ def MIDI_to_song(MIDI_info):
 	"""
 	pass
 
-def concrete_to_intraval(notes):
-	"""
-	Builds song intervals
-	input: list of notes
-	output: list of intervals
-	"""
-	pass
+
+def con_to_int(note_list):
+    """takes a song object and returns a list of note intervals"""
+    int_list = [0]
+    for i in range(len(note_list)-1):
+        int_list.append(note_list[i+1].tone - note_list[i].tone)
+    return int_list
+
 
 def harmony_analysis(notes):
 	"""
@@ -84,14 +102,14 @@ def harmony_analysis(notes):
 	"""
 	pass
 
-
-def Markov_dict(multi_song_intervals):
-	"""
-	Creates markov analysis of many song's intervals
-	input: list of intervals
-	output: new list of intervals
-	"""
-	pass
+def create_markov_chain(mark_dict, len_in_measures=32, pre_len=1):
+    """takes a markov dictionary and returns a generated list of note intervals"""
+    new_melody = list(random.choice(list(mark_dict.keys())))
+    for i in range(len_in_measures - pre_len):
+        options = m_dict[tuple(new_melody[i:i+pre_len])]
+        next_note = random.choice(options)
+        new_melody.append(next_note)
+    return new_melody
 
 def play_song(song_intervals):
 	"""
@@ -107,14 +125,14 @@ def main(filename):
 	input: takes an input of all file names
 	output: plays a song
 	"""
-	all_intervals = []
 	list_of_songs = filename
+    m_dict = dict()
 	for song in list_of_songs:
 		cleaned = MIDI_clean(filename)
-		new_song = MIDI_to_song(cleaned)
-		list_of_intervals = concrete_to_intraval(new_song)
-		all_intervals.append(list_of_intervals)
-	new_intervals =Markov_dict(all_intervals)
+		new_song_con = MIDI_to_song(cleaned)
+		NewSong = Song(new_song_con)
+		NewSong.add_to_analysis()
+        new_intervals = create_markov_chain(m_dict)
 	play_song(new_intervals)
 
 if __name__ == "__main__":
