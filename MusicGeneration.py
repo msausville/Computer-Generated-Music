@@ -70,20 +70,20 @@ def read_midi(filename):
     return list_of_notes
 
 def MIDI_clean(filename):
-	"""
-	Cleans up the MIDI files
-	input: MIDI file name
-	output: MIDI information
-	"""
-	pass
+    """
+    Cleans up the MIDI files
+    input: MIDI file name
+    output: MIDI information
+    """
+    pass
 
 def MIDI_to_song(MIDI_info):
-	"""
-	Gets the important information from the MIDI file
-	input:  MIDI information from function, list of notes
-	output: list of notes (and other impmortant parts to make the song?)
-	"""
-	pass
+    """
+    Gets the important information from the MIDI file
+    input:  MIDI information from function, list of notes
+    output: list of notes (and other impmortant parts to make the song?)
+    """
+    pass
 
 
 def con_to_int(note_list):
@@ -95,12 +95,12 @@ def con_to_int(note_list):
 
 
 def harmony_analysis(notes):
-	"""
-	Completes a harmony, arragemnet, sectioning analysis and give better sounding song
-	input: list of notes
-	output: new list of notes
-	"""
-	pass
+    """
+    Completes a harmony, arragemnet, sectioning analysis and give better sounding song
+    input: list of notes
+    output: new list of notes
+    """
+    pass
 
 def create_markov_chain(mark_dict, len_in_measures=32, pre_len=1):
     """takes a markov dictionary and returns a generated list of note intervals"""
@@ -112,28 +112,28 @@ def create_markov_chain(mark_dict, len_in_measures=32, pre_len=1):
     return new_melody
 
 def play_song(song_intervals):
-	"""
-	Plays the song
-	input: list of notes/intervals
-	output: *speaker output*
-	"""
-	pass
+    """
+    Plays the song
+    input: list of notes/intervals
+    output: *speaker output*
+    """
+    pass
 
 def main(filename):
-	"""
-	Performs Markov analysis on many songs and
-	input: takes an input of all file names
-	output: plays a song
-	"""
-	list_of_songs = filename
+    """
+    Performs Markov analysis on many songs and
+    input: takes an input of all file names
+    output: plays a song
+    """
+    list_of_songs = filename
     m_dict = dict()
-	for song in list_of_songs:
-		cleaned = MIDI_clean(filename)
-		new_song_con = MIDI_to_song(cleaned)
-		NewSong = Song(new_song_con)
-		NewSong.add_to_analysis()
+    for song in list_of_songs:
+        cleaned = MIDI_clean(filename)
+        new_song_con = MIDI_to_song(cleaned)
+        NewSong = Song(new_song_con)
+        NewSong.add_to_analysis()
         new_intervals = create_markov_chain(m_dict)
-	play_song(new_intervals)
+    play_song(new_intervals)
 
 if __name__ == "__main__":
     # main('filename')

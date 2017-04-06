@@ -23,7 +23,7 @@ def play_note(note, beats=1, bpm=100, amp=100):
     assert os.path.exists(SAMPLE_FILE)
     # Turn sample into an absolute path, since Sonic Pi is executing from a different working directory.
     sample(os.path.realpath(SAMPLE_FILE), rate=rate, amp=amp)
-    sleep(0.5) #sleep(beats * 60 / bpm)
+    sleep(0.5) # sleep(beats * 60 / bpm) #
 
 
 def stop():
