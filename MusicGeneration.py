@@ -29,7 +29,6 @@ class Song:
             suffix = intervals[i + pre_len]
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
 
-
 def read_midi(filename):
     mid = mido.MidiFile(filename)
     # print(mid)
