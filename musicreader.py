@@ -44,7 +44,7 @@ def play_music(curr_note=60, interval=[2,2,1,2,2,2,1]):
     play_note(curr_note)
     for note in interval:
         curr_note += note
-        print('note: ', note)
+        print('note: ', curr_note)
         if 0 <= curr_note:
             play_note(curr_note, note, beats_per_minute)
         else:

@@ -36,7 +36,7 @@ def read_midi(filename):
     list_of_notes = []
     open_notes = []
     for i, track in enumerate(mid.tracks):
-        # print('Track {}: {}'.format(i, track.name))
+        print('Track {}: {}'.format(i, track.name))
         # test_track = track[350]
         # print(track[350])
         for j in range(len(track)):
@@ -46,6 +46,7 @@ def read_midi(filename):
             is_new_note = True
             may_be_note = False
             if msg.type == 'note_on' or msg.type == 'note_off':
+                # if msg.channel ==5:
                 may_be_note = True
             for old_note in open_notes:
                 # print(is_new_note)
@@ -140,7 +141,7 @@ def main(filename):
     play_music(60,new_intervals)
 
 if __name__ == "__main__":
-    main('TwinkleTwinkleLittleStar.mid')
+    main('UpAllNight.mid')
     # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
