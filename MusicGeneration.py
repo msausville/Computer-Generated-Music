@@ -29,6 +29,7 @@ class Song:
             suffix = intervals[i + pre_len]
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
 
+
 def read_midi(filename):
     mid = mido.MidiFile(filename)
     # print(mid)
@@ -89,7 +90,7 @@ def MIDI_to_song(MIDI_info):
 
 def con_to_int(note_list):
     """takes a song object and returns a list of note intervals"""
-    int_list = [0]
+    int_list = []
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
@@ -121,7 +122,10 @@ def play_song(song_intervals):
 	pass
 
 def main(filename):
-    list_of_songs = filename
+    if type(filename) == list:
+        list_of_songs = filename
+    else:
+        list_of_songs = [filename]
     m_dict = dict()
     for song in list_of_songs:
 		# cleaned = MIDI_clean(filename)
@@ -130,10 +134,13 @@ def main(filename):
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(m_dict)
         new_intervals = create_markov_chain(m_dict)
-        play_music(new_intervals)
+        # new_intervals = NewSong.intervals
+        print(type(new_intervals))
+        print(new_intervals)
+    play_music(60,new_intervals)
 
 if __name__ == "__main__":
-    main('FiveNoteScale.mid')
+    main('TwinkleTwinkleLittleStar.mid')
     # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
