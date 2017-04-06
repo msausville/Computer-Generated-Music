@@ -23,7 +23,7 @@ def play_note(note, beats=1, bpm=100, amp=100):
     assert os.path.exists(SAMPLE_FILE)
     # Turn sample into an absolute path, since Sonic Pi is executing from a different working directory.
     sample(os.path.realpath(SAMPLE_FILE), rate=rate, amp=amp)
-    sleep(beats * 60 / bpm)
+    sleep(0.5) #sleep(beats * 60 / bpm)
 
 
 def stop():
@@ -38,8 +38,10 @@ atexit.register(stop)  # stop all tracks when the program exits normally or is i
 beats_per_minute = 45
 
 # curr_note = 60
-# major_intro = [2,2,1,2,2,2,1]
+major_intro = [2,2,1,2,2,2,1]
+minor_intro = [-1 -1 -1 -1 -1 -2 -2]
 def play_music(curr_note=60, interval=[2,2,1,2,2,2,1]):
+    play_note(curr_note)
     for note in interval:
         curr_note += note
         print('note: ', note)

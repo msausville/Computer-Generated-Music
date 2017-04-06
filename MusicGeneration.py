@@ -11,46 +11,46 @@ class Note:
         self.duration = duration
         self.volume = volume
 
-# def read_midi(filename):
-#     mid = mido.MidiFile(filename)
-#     print(mid)
-#     list_of_notes = []
-#     open_notes = []
-#     for i, track in enumerate(mid.tracks):
-#         print('Track {}: {}'.format(i, track.name))
-#         # test_track = track[350]
-#         # print(track[350])
-#         for j in range(len(track)):
-#             msg = track[j]
-#             print(msg)
-#             # print(msg.type)
-#             is_new_note = True
-#             may_be_note = False
-#             if msg.type == 'note_on' or msg.type == 'note_off':
-#                 may_be_note = True
-#             for old_note in open_notes:
-#                 print(is_new_note)
-#                 old_note.duration += msg.time
-#                 if may_be_note:
-#                     if old_note.tone == msg.note:
-#                         is_new_note = False
-#                         if msg.type == 'note_on':
-#                             if msg.velocity == 0:
-#                                 list_of_notes.append(old_note)
-#                                 open_notes.remove(old_note)
-#                         elif msg.type == 'note_off':
-#                             list_of_notes.append(old_note)
-#                             open_notes.remove(old_note)
-#
-#             if is_new_note and may_be_note:
-#                 new_note = Note(msg.note, msg.velocity)
-#                 open_notes.append(new_note);
-#             # try:
-#             #     nextmsg = track[j+1]
-#             #     # print(nextmsg.time)
-#             # except:
-#             #     pass
-#     return list_of_notes
+def read_midi(filename):
+    mid = mido.MidiFile(filename)
+    print(mid)
+    list_of_notes = []
+    open_notes = []
+    for i, track in enumerate(mid.tracks):
+        print('Track {}: {}'.format(i, track.name))
+        # test_track = track[350]
+        # print(track[350])
+        for j in range(len(track)):
+            msg = track[j]
+            print(msg)
+            # print(msg.type)
+            is_new_note = True
+            may_be_note = False
+            if msg.type == 'note_on' or msg.type == 'note_off':
+                may_be_note = True
+            for old_note in open_notes:
+                print(is_new_note)
+                old_note.duration += msg.time
+                if may_be_note:
+                    if old_note.tone == msg.note:
+                        is_new_note = False
+                        if msg.type == 'note_on':
+                            if msg.velocity == 0:
+                                list_of_notes.append(old_note)
+                                open_notes.remove(old_note)
+                        elif msg.type == 'note_off':
+                            list_of_notes.append(old_note)
+                            open_notes.remove(old_note)
+
+            if is_new_note and may_be_note:
+                new_note = Note(msg.note, msg.velocity)
+                open_notes.append(new_note);
+            # try:
+            #     nextmsg = track[j+1]
+            #     # print(nextmsg.time)
+            # except:
+            #     pass
+    return list_of_notes
 
 def MIDI_clean(filename):
 	"""
