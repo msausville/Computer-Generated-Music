@@ -7,6 +7,7 @@ from tkinter import messagebox
 from tkinter import font
 import mido
 from musicreader import play_music
+import random
 
 class Note:
     def __init__(self, tone = 60, volume = 60, duration = 0):
@@ -20,34 +21,34 @@ class Song:
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
 
-    def add_to_analysis(self):
+    def add_to_analysis(self, an_dict, pre_len=1):
         """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
             prefix = tuple(intervals[i:i + pre_len])
             suffix = intervals[i + pre_len]
-            m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
+            an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
 
 
 def read_midi(filename):
     mid = mido.MidiFile(filename)
-    print(mid)
+    # print(mid)
     list_of_notes = []
     open_notes = []
     for i, track in enumerate(mid.tracks):
-        print('Track {}: {}'.format(i, track.name))
+        # print('Track {}: {}'.format(i, track.name))
         # test_track = track[350]
         # print(track[350])
         for j in range(len(track)):
             msg = track[j]
-            print(msg)
+            # print(msg)
             # print(msg.type)
             is_new_note = True
             may_be_note = False
             if msg.type == 'note_on' or msg.type == 'note_off':
                 may_be_note = True
             for old_note in open_notes:
-                print(is_new_note)
+                # print(is_new_note)
                 old_note.duration += msg.time
                 if may_be_note:
                     if old_note.tone == msg.note:
@@ -107,7 +108,7 @@ def create_markov_chain(mark_dict, len_in_measures=32, pre_len=1):
     """takes a markov dictionary and returns a generated list of note intervals"""
     new_melody = list(random.choice(list(mark_dict.keys())))
     for i in range(len_in_measures - pre_len):
-        options = m_dict[tuple(new_melody[i:i+pre_len])]
+        options = mark_dict[tuple(new_melody[i:i+pre_len])]
         next_note = random.choice(options)
         new_melody.append(next_note)
     return new_melody
@@ -121,24 +122,20 @@ def play_song(song_intervals):
 	pass
 
 def main(filename):
-	"""
-	Performs Markov analysis on many songs and
-	input: takes an input of all file names
-	output: plays a song
-	"""
-	list_of_songs = filename
+    list_of_songs = filename
     m_dict = dict()
-	for song in list_of_songs:
-		cleaned = MIDI_clean(filename)
-		new_song_con = MIDI_to_song(cleaned)
-		NewSong = Song(new_song_con)
-		NewSong.add_to_analysis()
+    for song in list_of_songs:
+		# cleaned = MIDI_clean(filename)
+		# new_song_con = MIDI_to_song(cleaned)
+        new_song_con = read_midi(filename)
+        NewSong = Song(new_song_con)
+        NewSong.add_to_analysis(m_dict)
         new_intervals = create_markov_chain(m_dict)
-	play_song(new_intervals)
+        play_music(new_intervals)
 
 if __name__ == "__main__":
-    # main('filename')
-    play_music()
+    main('FiveNoteScale.mid')
+    # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
 #fonts
