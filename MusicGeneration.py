@@ -30,6 +30,14 @@ class Song:
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
 
 
+def check_for_lyrics(single_track):
+    for j in range(len(track)):
+        msg = track[j]
+        if msg.type in ['lyrics', 'note_on'] :
+            print(msg)
+    return lyric_channel
+    pass
+
 def read_midi(filename):
     mid = mido.MidiFile(filename)
     # print(mid)
@@ -166,7 +174,8 @@ def main(filename):
     play_music(60,new_intervals)
 
 if __name__ == "__main__":
-    main('UpAllNight.mid')
+    # main('UpAllNight.mid')
+    read_midi('UpAllNight.mid')
     # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
