@@ -41,7 +41,8 @@ def read_midi(filename):
         # print(track[350])
         for j in range(len(track)):
             msg = track[j]
-            # print(msg)
+            if msg.type in ['lyrics', 'note_on'] :
+                print(msg)
             # print(msg.type)
             is_new_note = True
             may_be_note = False
