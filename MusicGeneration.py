@@ -171,8 +171,8 @@ def main(filename):
 
 
 if __name__ == "__main__":
-    main('TwinkleTwinkleLittleStar.mid')
-    # play_music()
+    # main('WhatMakesYouBeautiful.mid')
+    play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
 #fonts
