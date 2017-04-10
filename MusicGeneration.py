@@ -77,7 +77,7 @@ def concrete_to_intraval(notes):
 
 def harmony_analysis(notes):
 	"""
-	Completes a harmony, arragemnet, sectioning analysis and give better sounding song
+	Completes a harmony, arrangement, sectioning analysis and give better sounding song
 	input: list of notes
 	output: new list of notes
 	"""
@@ -102,9 +102,9 @@ def play_song(song_intervals):
 
 def main(filename):
 	"""
-	Performs Markov analysis on many songs and 
-	input: takes an input of all file names 
-	output: plays a song 
+	Performs Markov analysis on many songs and
+	input: takes an input of all file names
+	output: plays a song
 	"""
 	all_intervals = []
 	list_of_songs = filename
@@ -135,7 +135,7 @@ if __name__ == "__main__":
 # def PlaySong():
 # 	msg = messagebox.showinfo("Song Box", "Playing Song")
 
-# #Widgits 
+# #Widgits
 # E = Listbox(top, selectmode = SINGLE, height = 5, width = 10)
 # P = Button(top, text = "Play", command = PlaySong, activebackground = "green", height = 5, width = 10)
 # W = Text(top, width = 60, height = 1, bg = "yellow")
@@ -154,6 +154,3 @@ if __name__ == "__main__":
 
 
 # top.mainloop()
-
-
-
