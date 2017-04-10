@@ -121,20 +121,21 @@ def play_song(song_intervals):
 	pass
 
 def main(filename):
-	"""
-	Performs Markov analysis on many songs and
-	input: takes an input of all file names
-	output: plays a song
-	"""
-	list_of_songs = filename
+    """
+    Performs Markov analysis on many songs and
+    input: takes an input of all file names
+    output: plays a song
+    """
+    list_of_songs = filename
     m_dict = dict()
-	for song in list_of_songs:
-		cleaned = MIDI_clean(filename)
-		new_song_con = MIDI_to_song(cleaned)
-		NewSong = Song(new_song_con)
-		NewSong.add_to_analysis()
+    play_music()
+    for song in list_of_songs:
+        cleaned = MIDI_clean(filename)
+        new_song_con = MIDI_to_song(cleaned)
+        NewSong = Song(new_song_con)
+        NewSong.add_to_analysis()
         new_intervals = create_markov_chain(m_dict)
-	play_song(new_intervals)
+        play_song(new_intervals)
 
 if __name__ == "__main__":
     # main('filename')
