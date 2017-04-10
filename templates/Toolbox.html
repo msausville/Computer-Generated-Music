@@ -1,23 +1,32 @@
 
 <!DOCTYPE html>
+<html>
 <head>
 	<script src="jquery-3.2.0.min.js"></script>
-<head>
+</head>
+<style>
+body{
+	background-image: url("http://www.shunvmall.com/data/out/96/47882821-gradient-wallpaper.png");
+	background-repeat: no-repeat;
+	width: 100%; height: 150px; background-size: 100%;
+}
+</style>
+<body>
+
 <title>HomeScreen</title>
 
-<h2>'Hello!! Welcome to this random page'<h2>
-
- <form action="/profile" method="POST">
- 	<div class="form-group">
-		First name:<br>
-		<input type="text" name="firstname" ><br>
-	</div>
-  		Last name:<br>
- 	<input type="text" name="lastname" ><br><br>
- 		Age:<br>
- 	<input type="text" name="age" ><br><br>
- 		Favorite NINJA:<br>
- 	<input type="text" name="Ninja" ><br><br>
- 	<input class= "btn btn-primary" type="submit" value="Submit">
-</form> 
+<p><p align='center'><font size = '30'>Ready to make some music?!?</font></p>
+ <center><form action="/profile" method="POST">
+  	<select name="song">
+ 		<option value="NONE"> SONGS HERE </option>
+ 		<option value="Twinkle Twinkle Little Star"> Twinkle Twinkle Little Star </option>
+ 		<option value="Poker Face"> Poker Face </option>
+ 		<option value="The Best Song Ever"> The Best Song Ever </option>
+ 	</select>
+ 	<br><br>
+ 	<input class= "btn btn-primary" type="submit" value="Play Song">
+</form></center> 
+<IMG STYLE="position:absolute; TOP:300px; LEFT:700px; WIDTH:700px; HEIGHT:700px" SRC="http://pngimg.com/uploads/music_notes/music_notes_PNG77.png" alt="Musical Notes">
+</body>
+</html>
 

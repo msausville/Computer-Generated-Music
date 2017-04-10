@@ -147,6 +147,7 @@ def play_song(song_intervals):
 
 def main(filename):
 
+
 	"""
 	Performs Markov analysis on many songs and
 	input: takes an input of all file names
@@ -167,8 +168,6 @@ def main(filename):
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-    play_music(60,new_intervals)
-
 
 if __name__ == "__main__":
     # main('WhatMakesYouBeautiful.mid')
