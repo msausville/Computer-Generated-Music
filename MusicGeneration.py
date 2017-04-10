@@ -72,20 +72,20 @@ def read_midi(filename):
     return list_of_notes
 
 def MIDI_clean(filename):
-	"""
-	Cleans up the MIDI files
-	input: MIDI file name
-	output: MIDI information
-	"""
-	pass
+    """
+    Cleans up the MIDI files
+    input: MIDI file name
+    output: MIDI information
+    """
+    pass
 
 def MIDI_to_song(MIDI_info):
-	"""
-	Gets the important information from the MIDI file
-	input:  MIDI information from function, list of notes
-	output: list of notes (and other impmortant parts to make the song?)
-	"""
-	pass
+    """
+    Gets the important information from the MIDI file
+    input:  MIDI information from function, list of notes
+    output: list of notes (and other impmortant parts to make the song?)
+    """
+    pass
 
 
 def con_to_int(note_list):
@@ -97,6 +97,7 @@ def con_to_int(note_list):
 
 
 def harmony_analysis(notes):
+
 	"""
 	Completes a harmony, arrangement, sectioning analysis and give better sounding song
 	input: list of notes
@@ -138,21 +139,25 @@ def poss_notes_major(start_note):
     return possible_notes
 
 def play_song(song_intervals):
-	"""
-	Plays the song
-	input: list of notes/intervals
-	output: *speaker output*
-	"""
-	pass
+    """
+    Plays the song
+    input: list of notes/intervals
+    output: *speaker output*
+    """
+    pass
 
 def main(filename):
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
+<<<<<<< HEAD
     list_of_songs = filename
     m_dict = dict()
     play_music()
@@ -173,6 +178,8 @@ def main(filename):
 	input: takes an input of all file names
 	output: plays a song
 	"""
+=======
+>>>>>>> master
     if type(filename) == list:
         list_of_songs = filename
     else:
@@ -191,13 +198,16 @@ def main(filename):
 <<<<<<< HEAD
     play_music(60,new_intervals)
 
+<<<<<<< HEAD
 >>>>>>> 38fcb5e7b054f588fd01904011c1e36fbdcd30b7
 =======
 >>>>>>> e2225cc4e053d3fba79a1b33e28f3e8527639e2b
 
+=======
+>>>>>>> master
 if __name__ == "__main__":
-    # main('WhatMakesYouBeautiful.mid')
-    play_music()
+    main('TwinkleTwinkleLittleStar.mid')
+    # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
 #fonts
