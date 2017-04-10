@@ -2,9 +2,9 @@
 Purpose: Create computer-generated music
 Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
 Hannah Kolano, Meaghen Sausville"""
-from tkinter import *
-from tkinter import messagebox
-from tkinter import font
+# from tkinter import *
+# from tkinter import messagebox
+# from tkinter import font
 import mido
 from musicreader import play_music
 import random
@@ -126,11 +126,11 @@ def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1)
 def poss_notes_major(start_note):
     '''takes a starting note; returns list of possible notes in major key of that note'''
     maj_intervals = [2, 2, 1, 2, 2, 2, 1]
-    while start_note >= 12:
+    while start_note >= 36:
         start_note += -12
     possible_notes = [start_note]
     counter = 0
-    for i in range(9):
+    for i in range(6):
         for interval in maj_intervals:
             new_note = possible_notes[counter] + interval
             possible_notes.append(new_note)
@@ -152,7 +152,7 @@ def main(filename):
         list_of_songs = [filename]
     m_dict = dict()
     for song in list_of_songs:
-		# cleaned = MIDI_clean(filename)
+		# cleaned = MIDI_clean(song)
 		# new_song_con = MIDI_to_song(cleaned)
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
