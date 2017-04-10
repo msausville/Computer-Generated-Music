@@ -2,11 +2,12 @@
 Purpose: Create computer-generated music
 Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
 Hannah Kolano, Meaghen Sausville"""
-from tkinter import *
-from tkinter import messagebox
-from tkinter import font
+# from tkinter import *
+# from tkinter import messagebox
+# from tkinter import font
 import mido
 from musicreader import play_music
+import random
 
 class Note:
     def __init__(self, tone = 60, volume = 60, duration = 0):
@@ -20,34 +21,34 @@ class Song:
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
 
-    def add_to_analysis(self):
+    def add_to_analysis(self, an_dict, pre_len=1):
         """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
             prefix = tuple(intervals[i:i + pre_len])
             suffix = intervals[i + pre_len]
-            m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
+            an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
 
 
 def read_midi(filename):
     mid = mido.MidiFile(filename)
-    print(mid)
+    # print(mid)
     list_of_notes = []
     open_notes = []
     for i, track in enumerate(mid.tracks):
-        print('Track {}: {}'.format(i, track.name))
+        # print('Track {}: {}'.format(i, track.name))
         # test_track = track[350]
         # print(track[350])
         for j in range(len(track)):
             msg = track[j]
-            print(msg)
+            # print(msg)
             # print(msg.type)
             is_new_note = True
             may_be_note = False
             if msg.type == 'note_on' or msg.type == 'note_off':
                 may_be_note = True
             for old_note in open_notes:
-                print(is_new_note)
+                # print(is_new_note)
                 old_note.duration += msg.time
                 if may_be_note:
                     if old_note.tone == msg.note:
@@ -89,7 +90,7 @@ def MIDI_to_song(MIDI_info):
 
 def con_to_int(note_list):
     """takes a song object and returns a list of note intervals"""
-    int_list = [0]
+    int_list = []
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
@@ -97,20 +98,44 @@ def con_to_int(note_list):
 
 def harmony_analysis(notes):
 	"""
-	Completes a harmony, arragemnet, sectioning analysis and give better sounding song
+	Completes a harmony, arrangement, sectioning analysis and give better sounding song
 	input: list of notes
 	output: new list of notes
 	"""
 	pass
 
-def create_markov_chain(mark_dict, len_in_measures=32, pre_len=1):
-    """takes a markov dictionary and returns a generated list of note intervals"""
+def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1):
+    """takes a markov dicionary and returns a generated list of note intervals"""
     new_melody = list(random.choice(list(mark_dict.keys())))
+    melody_concrete = [start_note]
+    possible_notes = poss_notes_major(start_note)
+    for i in range(len(new_melody)):
+        melody_concrete.append(melody_concrete[i]+new_melody[i])
     for i in range(len_in_measures - pre_len):
-        options = m_dict[tuple(new_melody[i:i+pre_len])]
-        next_note = random.choice(options)
-        new_melody.append(next_note)
+        options = mark_dict[tuple(new_melody[i:i+pre_len])]
+        next_interval = random.choice(options)
+        next_note = melody_concrete[i+pre_len] + next_interval
+        while next_note not in possible_notes:
+            next_interval = random.choice(options)
+            next_note = melody_concrete[i+pre_len] + next_interval
+        new_melody.append(next_interval)
+        melody_concrete.append(next_note)
     return new_melody
+
+
+def poss_notes_major(start_note):
+    '''takes a starting note; returns list of possible notes in major key of that note'''
+    maj_intervals = [2, 2, 1, 2, 2, 2, 1]
+    while start_note >= 36:
+        start_note += -12
+    possible_notes = [start_note]
+    counter = 0
+    for i in range(6):
+        for interval in maj_intervals:
+            new_note = possible_notes[counter] + interval
+            possible_notes.append(new_note)
+            counter += 1
+    return possible_notes
 
 def play_song(song_intervals):
 	"""
@@ -121,6 +146,7 @@ def play_song(song_intervals):
 	pass
 
 def main(filename):
+<<<<<<< HEAD
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
@@ -136,9 +162,34 @@ def main(filename):
         NewSong.add_to_analysis()
         new_intervals = create_markov_chain(m_dict)
         play_song(new_intervals)
+=======
+
+	"""
+	Performs Markov analysis on many songs and
+	input: takes an input of all file names
+	output: plays a song
+	"""
+    if type(filename) == list:
+        list_of_songs = filename
+    else:
+        list_of_songs = [filename]
+    m_dict = dict()
+    for song in list_of_songs:
+		# cleaned = MIDI_clean(song)
+		# new_song_con = MIDI_to_song(cleaned)
+        new_song_con = read_midi(filename)
+        NewSong = Song(new_song_con)
+        NewSong.add_to_analysis(m_dict)
+        new_intervals = create_markov_chain(m_dict)
+        # new_intervals = NewSong.intervals
+        print(type(new_intervals))
+        print(new_intervals)
+    play_music(60,new_intervals)
+
+>>>>>>> 38fcb5e7b054f588fd01904011c1e36fbdcd30b7
 
 if __name__ == "__main__":
-    # main('filename')
+    # main('WhatMakesYouBeautiful.mid')
     play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
