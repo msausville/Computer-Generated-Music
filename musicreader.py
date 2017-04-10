@@ -13,7 +13,7 @@ SAMPLE_FILE = os.path.join(SAMPLES_DIR, "bass_G2.wav")
 SAMPLE_NOTE = D2  # the sample file plays at this pitch
 
 
-def play_note(note, beats=1, bpm=100, amp=100):
+def play_note(note, beats=1, bpm=300, amp=100):
     """Plays note for `beats` beats. Returns when done."""
     # `note` is this many half-steps higher than the sampled note
     half_steps = note - SAMPLE_NOTE
@@ -23,7 +23,7 @@ def play_note(note, beats=1, bpm=100, amp=100):
     assert os.path.exists(SAMPLE_FILE)
     # Turn sample into an absolute path, since Sonic Pi is executing from a different working directory.
     sample(os.path.realpath(SAMPLE_FILE), rate=rate, amp=amp)
-    sleep(0.5) # sleep(beats * 60 / bpm) #
+    sleep(beats * 60 / bpm) #sleep(0.5) #
 
 
 def stop():
@@ -41,15 +41,18 @@ beats_per_minute = 45
 major_intro = [2,2,1,2,2,2,1]
 minor_intro = [-1 -1 -1 -1 -1 -2 -2]
 def play_music(curr_note=60, interval=[2,2,1,2,2,2,1]):
-    play_note(curr_note)
+    beats = 1
+    bpm = 300
+    amp = 100
+    play_note(curr_note, beats, bpm, amp)
     for note in interval:
         curr_note += note
         print('note: ', note)
         if 0 <= curr_note:
-            play_note(curr_note, note, beats_per_minute)
+            play_note(curr_note, beats, bpm, amp)
         else:
             curr_note = 0
-            play_note(curr_note, note, beats_per_minute)
+            play_note(curr_note, beats, bpm, amp)
 
 if __name__ == "__main__":
     play_music()
