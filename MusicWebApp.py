@@ -15,7 +15,7 @@ def profile():
 			print("yes")
 			pic = "https://i.kinja-img.com/gawker-media/image/upload/s--qn6H3zL3--/c_scale,fl_progressive,q_80,w_800/jiszvtpozcrbbzxrxmq6.jpg"
 		elif song == "Twinkle Twinkle Little Star":
-			pic = "https://lh3.googleusercontent.com/M2sSFmuPvkeZG5Uf9TYNacn0Sqwfj7PtqOxWR63V7kw31-BIyvwfvwgyfcDpZFCEWZM=w300"
+			pic = "http://img.clipartall.com/yellow-star-border-clip-art-clipart-panda-free-clipart-images-yellow-star-clipart-552_599.png"
 		else:
 			pic = "https://athousandsimpletests.files.wordpress.com/2013/08/all-or-nothing.jpg"
 		return render_template("UserInterface.html", song = song, pic = pic)
