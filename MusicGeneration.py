@@ -152,7 +152,6 @@ def main(filename):
     input: takes an input of all file names
     output: plays a song
     """
-
     if type(filename) == list:
         list_of_songs = filename
     else:
@@ -169,7 +168,6 @@ def main(filename):
         print(type(new_intervals))
         print(new_intervals)
     play_music(60,new_intervals)
-
 
 if __name__ == "__main__":
     main('TwinkleTwinkleLittleStar.mid')
