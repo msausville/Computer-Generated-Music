@@ -98,12 +98,12 @@ def con_to_int(note_list):
 
 def harmony_analysis(notes):
 
-	"""
-	Completes a harmony, arrangement, sectioning analysis and give better sounding song
-	input: list of notes
-	output: new list of notes
-	"""
-	pass
+    """
+    Completes a harmony, arrangement, sectioning analysis and give better sounding song
+    input: list of notes
+    output: new list of notes
+    """
+    pass
 
 
 def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1):
@@ -153,12 +153,12 @@ def play_song(song_intervals):
 
 
 def main(filename):
-	"""
-	Performs Markov analysis on many songs and
-	input: takes an input of all file names
-	output: plays a song
-	"""
-    if type(filename) == list:
+    """
+    Performs Markov analysis on many songs and
+    input: takes an input of all file names
+    output: plays a song
+    """
+    if type(filename) == 'list':
         list_of_songs = filename
     else:
         list_of_songs = [filename]
@@ -176,8 +176,8 @@ def main(filename):
     play_music(60,new_intervals)
 
 if __name__ == "__main__":
-    main('UpAllNight.mid')
-    # play_music()
+    # main('UpAllNight.mid')
+    play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
 #fonts
