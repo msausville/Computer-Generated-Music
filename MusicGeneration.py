@@ -172,7 +172,7 @@ def main(filename):
 
 
 if __name__ == "__main__":
-    main('TwinkleTwinkleLittleStar.mid')
+    main('UpAllNight.mid')
     # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)

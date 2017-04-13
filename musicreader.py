@@ -13,16 +13,15 @@ SAMPLE_FILE = os.path.join(SAMPLES_DIR, "bass_G2.wav")
 SAMPLE_NOTE = D2  # the sample file plays at this pitch
 
 
-def play_note(note, beats=1, bpm=300, amp=100):
+def play_note(note, *args, beats=1, bpm=300, amp=100):
     """Plays note for `beats` beats. Returns when done."""
     # `note` is this many half-steps higher than the sampled note
     half_steps = note - SAMPLE_NOTE
-    # An octave higher is twice the frequency. There are twelve half-steps per octave. Ergo,
-    # each half step is a twelth root of 2 (in equal temperament).
-    rate = (2 ** (1 / 12)) ** half_steps
+
+    use_synth(PRETTY_BELL)
     assert os.path.exists(SAMPLE_FILE)
     # Turn sample into an absolute path, since Sonic Pi is executing from a different working directory.
-    sample(os.path.realpath(SAMPLE_FILE), rate=rate, amp=amp)
+    play(note, amp=amp)
     sleep(beats * 60 / bpm) #sleep(0.5) #
 
 
