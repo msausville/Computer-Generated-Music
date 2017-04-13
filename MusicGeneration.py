@@ -1,6 +1,6 @@
 """Main File for Music Generation
 Purpose: Create computer-generated music
-Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
+Authors: Tatiana Anthony, Allison Basore, Ilya Besancon,
 Hannah Kolano, Meaghen Sausville"""
 # from tkinter import *
 # from tkinter import messagebox
@@ -72,20 +72,20 @@ def read_midi(filename):
     return list_of_notes
 
 def MIDI_clean(filename):
-	"""
-	Cleans up the MIDI files
-	input: MIDI file name
-	output: MIDI information
-	"""
-	pass
+    """
+    Cleans up the MIDI files
+    input: MIDI file name
+    output: MIDI information
+    """
+    pass
 
 def MIDI_to_song(MIDI_info):
-	"""
-	Gets the important information from the MIDI file
-	input:  MIDI information from function, list of notes
-	output: list of notes (and other impmortant parts to make the song?)
-	"""
-	pass
+    """
+    Gets the important information from the MIDI file
+    input:  MIDI information from function, list of notes
+    output: list of notes (and other impmortant parts to make the song?)
+    """
+    pass
 
 
 def con_to_int(note_list):
@@ -97,12 +97,14 @@ def con_to_int(note_list):
 
 
 def harmony_analysis(notes):
+
 	"""
-	Completes a harmony, arragemnet, sectioning analysis and give better sounding song
+	Completes a harmony, arrangement, sectioning analysis and give better sounding song
 	input: list of notes
 	output: new list of notes
 	"""
 	pass
+
 
 def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1):
     """takes a markov dicionary and returns a generated list of note intervals"""
@@ -122,6 +124,7 @@ def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1)
         melody_concrete.append(next_note)
     return new_melody
 
+
 def poss_notes(start_note, key_in='major'):
     '''takes a starting note; returns list of possible notes in major key of that note'''
     if key_in == 'major':
@@ -139,15 +142,22 @@ def poss_notes(start_note, key_in='major'):
             counter += 1
     return possible_notes
 
+
 def play_song(song_intervals):
-	"""
-	Plays the song
-	input: list of notes/intervals
-	output: *speaker output*
-	"""
-	pass
+    """
+    Plays the song
+    input: list of notes/intervals
+    output: *speaker output*
+    """
+    pass
+
 
 def main(filename):
+    """
+    Performs Markov analysis on many songs and input:
+    takes an input of all file names output: plays a song
+
+    """
     if type(filename) == list:
         list_of_songs = filename
     else:
