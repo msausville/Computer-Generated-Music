@@ -153,63 +153,39 @@ def play_song(song_intervals):
 
 
 def main(filename):
+<<<<<<< HEAD
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
     if type(filename) == 'list':
+=======
+    if type(filename) == list:
+>>>>>>> allison
         list_of_songs = filename
     else:
         list_of_songs = [filename]
-    m_dict = dict()
+        m_dict = dict()
     for song in list_of_songs:
-		# cleaned = MIDI_clean(song)
-		# new_song_con = MIDI_to_song(cleaned)
+    # cleaned = MIDI_clean(song)
+    # new_song_con = MIDI_to_song(cleaned)
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(m_dict)
         new_intervals = create_markov_chain(m_dict, 57)
-        # new_intervals = NewSong.intervals
-        print(type(new_intervals))
-        print(new_intervals)
+    # new_intervals = NewSong.intervals
+    print(type(new_intervals))
+    print(new_intervals)
     play_music(60,new_intervals)
 
+
 if __name__ == "__main__":
+<<<<<<< HEAD
     # main('UpAllNight.mid')
     play_music()
+=======
+   main('TwinkleTwinkleLittleStar.mid')
+    # play_music()
+>>>>>>> allison
 
-#The GUI draft (COMMENT OUT FOR NOW)
-#fonts
-#Times10 = (family="Times",size=10,weight="bold")
-
-# top = Tk()
-# top.geometry("400x400")
-
-# #Function for Commands
-# def printchoice(e):
-# 	output = E.curselection()
-# 	print(output)
-
-# def PlaySong():
-# 	msg = messagebox.showinfo("Song Box", "Playing Song")
-
-# #Widgits
-# E = Listbox(top, selectmode = SINGLE, height = 5, width = 10)
-# P = Button(top, text = "Play", command = PlaySong, activebackground = "green", height = 5, width = 10)
-# W = Text(top, width = 60, height = 1, bg = "yellow")
-# W.insert(INSERT, 'Welcome! Ready to make some music?')
-
-# listofsongs = ["Song1", "Song2", "Song3"]
-# for song in listofsongs:
-# 	E.insert(END, song)
-
-# #Packing and Placements
-# E.place(x=100, y = 100)
-# E.bind('<<ListboxSelect>>', printchoice)
-# W.place(x=0, y=10)
-# P.place(x=100, y = 200)
-
-
-
-# top.mainloop()
