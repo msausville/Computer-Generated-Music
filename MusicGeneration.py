@@ -176,7 +176,7 @@ def main(filename):
     play_music(60,new_intervals)
 
 if __name__ == "__main__":
-    main('TwinkleTwinkleLittleStar.mid')
+    main('UpAllNight.mid')
     # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
