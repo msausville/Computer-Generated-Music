@@ -1,6 +1,6 @@
 """Main File for Music Generation
 Purpose: Create computer-generated music
-Authors: Tatiana Anthony, Allison Basore, Ilya Bescanson,
+Authors: Tatiana Anthony, Allison Basore, Ilya Besancon,
 Hannah Kolano, Meaghen Sausville"""
 # from tkinter import *
 # from tkinter import messagebox
@@ -105,11 +105,12 @@ def harmony_analysis(notes):
 	"""
 	pass
 
+
 def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1):
     """takes a markov dicionary and returns a generated list of note intervals"""
     new_melody = list(random.choice(list(mark_dict.keys())))
     melody_concrete = [start_note]
-    possible_notes = poss_notes_major(start_note)
+    possible_notes = poss_notes(start_note, 'minor')
     for i in range(len(new_melody)):
         melody_concrete.append(melody_concrete[i]+new_melody[i])
     for i in range(len_in_measures - pre_len):
@@ -124,19 +125,23 @@ def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1)
     return new_melody
 
 
-def poss_notes_major(start_note):
+def poss_notes(start_note, key_in='major'):
     '''takes a starting note; returns list of possible notes in major key of that note'''
-    maj_intervals = [2, 2, 1, 2, 2, 2, 1]
+    if key_in == 'major':
+        intervals = [2, 2, 1, 2, 2, 2, 1]
+    elif key_in == 'minor':
+        intervals = [2, 1, 2, 2, 1, 2, 2]
     while start_note >= 36:
         start_note += -12
     possible_notes = [start_note]
     counter = 0
     for i in range(6):
-        for interval in maj_intervals:
+        for interval in intervals:
             new_note = possible_notes[counter] + interval
             possible_notes.append(new_note)
             counter += 1
     return possible_notes
+
 
 def play_song(song_intervals):
     """
@@ -146,40 +151,13 @@ def play_song(song_intervals):
     """
     pass
 
+
 def main(filename):
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
-    """
-    Performs Markov analysis on many songs and
-    input: takes an input of all file names
-    output: plays a song
-    """
-<<<<<<< HEAD
-    list_of_songs = filename
-    m_dict = dict()
-    play_music()
-    for song in list_of_songs:
-        cleaned = MIDI_clean(filename)
-        new_song_con = MIDI_to_song(cleaned)
-        NewSong = Song(new_song_con)
-        NewSong.add_to_analysis()
-        new_intervals = create_markov_chain(m_dict)
-        play_song(new_intervals)
-=======
-=======
-
->>>>>>> e2225cc4e053d3fba79a1b33e28f3e8527639e2b
-
 	"""
 	Performs Markov analysis on many songs and
 	input: takes an input of all file names
 	output: plays a song
 	"""
-=======
->>>>>>> master
     if type(filename) == list:
         list_of_songs = filename
     else:
@@ -191,20 +169,12 @@ def main(filename):
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(m_dict)
-        new_intervals = create_markov_chain(m_dict)
+        new_intervals = create_markov_chain(m_dict, 57)
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-<<<<<<< HEAD
     play_music(60,new_intervals)
 
-<<<<<<< HEAD
->>>>>>> 38fcb5e7b054f588fd01904011c1e36fbdcd30b7
-=======
->>>>>>> e2225cc4e053d3fba79a1b33e28f3e8527639e2b
-
-=======
->>>>>>> master
 if __name__ == "__main__":
     main('TwinkleTwinkleLittleStar.mid')
     # play_music()

@@ -1,10 +1,12 @@
 import mido
 
+
 class Note:
-    def __init__(self,value = 60, volume = 60, duration = 0):
+    def __init__(self, value=60, volume=60, duration=0):
         self.value = value
         self.duration = duration
         self.volume = volume
+
 
 def read_midi(filename):
     mid = mido.MidiFile(filename)
@@ -14,7 +16,7 @@ def read_midi(filename):
     for i, track in enumerate(mid.tracks):
         print('Track {}: {}'.format(i, track.name))
         # test_track = track[350]
-        # 
+        #
         # print(track[350])
         for j in range(len(track)):
             msg = track[j]
@@ -36,15 +38,16 @@ def read_midi(filename):
                             open_notes.remove(old_note)
 
             if is_new_note:
-                if len(old_notes) >0:
+                if len(old_notes) > 0:
                         new_note = Note(msg.note, msg.velocity)
-                        open_notes.append(new_note);
+                        open_notes.append(new_note)
             # try:
             #     nextmsg = track[j+1]
             #     # print(nextmsg.time)
             # except:
             #     pass
     return list_of_notes
+
 
 if __name__ == "__main__":
     a = read_midi('Untitled_441406.mid')
