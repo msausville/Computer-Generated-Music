@@ -17,12 +17,12 @@ def play_note(note, beats=1, bpm=300, amp=100):
     """Plays note for `beats` beats. Returns when done."""
     # `note` is this many half-steps higher than the sampled note
     half_steps = note - SAMPLE_NOTE
-    # An octave higher is twice the frequency. There are twelve half-steps per octave. Ergo,
-    # each half step is a twelth root of 2 (in equal temperament).
-    rate = (2 ** (1 / 12)) ** half_steps
+
+# Here is where you change synths (different sounding notes)
+    use_synth(DTRI)
     assert os.path.exists(SAMPLE_FILE)
     # Turn sample into an absolute path, since Sonic Pi is executing from a different working directory.
-    sample(os.path.realpath(SAMPLE_FILE), rate=rate, amp=amp)
+    play(note, amp=amp)
     sleep(beats * 60 / bpm) #sleep(0.5) #
 
 
@@ -40,19 +40,30 @@ beats_per_minute = 45
 # curr_note = 60
 major_intro = [2,2,1,2,2,2,1]
 minor_intro = [-1 -1 -1 -1 -1 -2 -2]
-def play_music(curr_note=60, interval=[2,2,1,2,2,2,1]):
+major_intro_fancy = [(2,1),(2,2),(1,3),(2,0.5),(2,1),(2,1),(1,2)]
+def play_music(curr_note=60, interval = major_intro_fancy):
+    print(major_intro)
     beats = 1
     bpm = 300
     amp = 100
     play_note(curr_note, beats, bpm, amp)
     for note in interval:
-        curr_note += note
-        print('note: ', note)
-        if 0 <= curr_note:
-            play_note(curr_note, beats, bpm, amp)
-        else:
-            curr_note = 0
-            play_note(curr_note, beats, bpm, amp)
+        try:
+            curr_note +=note
+            print('note: ', note)
+            if 0 <= curr_note:
+                play_note(curr_note, beats, bpm, amp)
+            else:
+                curr_note = 0
+                play_note(curr_note, beats, bpm, amp)
+        except:
+            curr_note += note[0]
+            print('except note: ', note)
+            if 0 <= curr_note:
+                play_note(curr_note, note[1], bpm, amp)
+            else:
+                curr_note = 0
+                play_note(curr_note, note[1], bpm, amp)
 
 if __name__ == "__main__":
     play_music()
