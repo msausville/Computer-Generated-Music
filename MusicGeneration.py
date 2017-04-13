@@ -153,14 +153,12 @@ def play_song(song_intervals):
 
 
 def main(filename):
-
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
     if type(filename) == 'list':
-
         list_of_songs = filename
     else:
         list_of_songs = [filename]
@@ -181,5 +179,6 @@ def main(filename):
 if __name__ == "__main__":
    main('TwinkleTwinkleLittleStar.mid')
     # play_music()
+
 
 
