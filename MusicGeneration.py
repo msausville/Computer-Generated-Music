@@ -100,8 +100,7 @@ def con_to_int(note_list):
 
 def bassline(startnote):
     """
-    Creates a bassline and outputs as list of tuples.
-    Each tuple has intervals and note lengths
+    Creates a bassline and outputs as list of notes.
     """
     # list of possible notes
     use_scale = poss_notes(startnote, 'minor')
@@ -109,13 +108,9 @@ def bassline(startnote):
     octave_scale = [note - 12 for note in use_scale]
     total_notes = len(octave_scale)
     bassline_notes = [startnote]
-    bass_int_tuple = []
     for i in range(total_notes//4):
         bassline_notes.append(random.choice(octave_scale))
-        bassline_intervals = con_to_int(bassline_notes)
-    for b in range(total_notes//4):
-        bass_int_tuple.append((bassline_intervals, 4))
-    return bass_int_tuple
+    return bassline_notes
 
 
 def harmony_analysis(notes, startnote):
@@ -185,8 +180,8 @@ def main(filename):
         list_of_songs = [filename]
         m_dict = dict()
     for song in list_of_songs:
-    # cleaned = MIDI_clean(song)
-    # new_song_con = MIDI_to_song(cleaned)
+        # cleaned = MIDI_clean(song)
+        # new_song_con = MIDI_to_song(cleaned)
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(m_dict)
