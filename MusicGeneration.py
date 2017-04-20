@@ -78,6 +78,7 @@ def read_midi(filename):
             #     pass
     return list_of_notes
 
+
 def MIDI_clean(filename):
     """
     Cleans up the MIDI files
@@ -113,11 +114,16 @@ def bassline(startnote, b_length):
     use_scale = poss_notes(startnote, 'minor')
     # drops it down an octave
     octave_scale = [note - 12 for note in use_scale]
+    print('octaved scale: ', octave_scale)
     total_notes = len(octave_scale)
     bassline_notes = [Note(startnote, b_length)]
     for i in range(total_notes//b_length):
-        bassline_notes.append(Note(random.choice(octave_scale), b_length))
+        bassline_notes.append(Note(
+            random.choice(octave_scale[0:16]), b_length))
     return bassline_notes
+    # a = bassline(57, 4)
+    # b = [note.tone for note in a]
+    # print('notes in bassline: ', b)
 
 
 def harmony_analysis(notes, startnote):
@@ -136,7 +142,7 @@ def create_markov_chain(mark_dict, start_note=60, len_in_beats=32, pre_len=1):
     new_intervals = [0]
     for i in range(len_in_beats - pre_len):
         next_note = -1
-        options = mark_dict[new_intervals[i],]
+        options = mark_dict[new_intervals[i], ]
         while next_note not in possible_notes:
             next_interval = random.choice(options)
             next_note = new_melody[i].tone + next_interval
