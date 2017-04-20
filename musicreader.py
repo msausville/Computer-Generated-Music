@@ -13,6 +13,11 @@ class Note:
         self.duration = duration
         self.volume = volume
 
+    def __str__(self):
+        """prints the attributes of a note object"""
+        return "'tone = %s', 'duration = %s', 'volume = %s'" % (str(self.tone), str(self.duration), str(self.volume))
+
+
 # The sample directory is relative to this source file's directory.
 SAMPLES_DIR = os.path.join(os.path.dirname(__file__), "samples")
 
