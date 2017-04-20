@@ -51,12 +51,20 @@ def stop():
 atexit.register(stop)  # stop all tracks when the program exits normally or is interrupted
 beats_per_minute = 45
 
+
 def play_music(list_of_notes, list_of_notes_2):
+
+    # print(list_of_notes)
+    # curr_note = list_of_notes[0]
+    # curr_note.beats = 1
+    # curr_note.bpm = 100
+    # curr_note.amp = 100
 
     for current_note in list_of_notes:
         for current_note_2 in list_of_notes_2:
             play_note(current_note)
             play_note(current_note_2)
+
 
 if __name__ == "__main__":
     list_of_notes = []
