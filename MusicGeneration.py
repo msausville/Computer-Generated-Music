@@ -9,11 +9,11 @@ import mido
 from musicreader import play_music
 import random
 
-class Note:
-    def __init__(self, tone = 60, volume = 60, duration = 0):
-        self.tone = tone
-        self.duration = duration
-        self.volume = volume
+# class Note:
+#     def __init__(self, tone = 60, volume = 60, duration = 0):
+#         self.tone = tone
+#         self.duration = duration
+#         self.volume = volume
 
 class Song:
     def __init__(self, notes_list):
@@ -176,8 +176,9 @@ def main(filename):
     play_music(60,new_intervals)
 
 if __name__ == "__main__":
-    # main('UpAllNight.mid')
-    play_music()
+    main('TwinkleTwinkleLittleStar.mid')
+    # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
+    # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
 #fonts
