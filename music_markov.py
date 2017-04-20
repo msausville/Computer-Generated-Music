@@ -18,6 +18,7 @@ import random
 # global variables
 m_dict = dict()                 # markov dictionary
 pre_len = 1                     # prefix length
+d_dict = dict()           # markov dict of measures
 # num_measures = 8                # number of desired measures, in 4/4, not implemented yet
 
 
@@ -40,14 +41,18 @@ class Song:
         self.intervals = con_to_int(self.concrete)
         self.process_durations()
 
-    def add_to_analysis(self, an_dict, all_durations, pre_len=1):
+    def add_to_analysis(self, an_dict, measure_dict, pre_len=1):
         """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
             prefix = tuple(intervals[i:i + pre_len])
             suffix = intervals[i + pre_len]
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
-
+        durations = self.durations
+        for i in range(len(durations)-pre_len):
+            prefix = tuple(durations[i:i + pre_len])
+            suffix = durations[i+pre_len]
+            measure_dict[prefix] = measure_dict.get(prefix, tuple()) + (suffix,)
 
     def process_durations(self):
         self.durations = []
@@ -63,17 +68,21 @@ def con_to_int(note_list):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
 
-def create_markov_chain(mark_dict, start_note=60, len_in_beats=32, pre_len=1):
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
     possible_notes = poss_notes(start_note, 'major')
     new_melody = [Note(start_note)]
     new_intervals = [0]
+    new_durations = [random.choice(dur_dict.keys())]
+    num_beats = 0
     for i in range(len_in_beats - pre_len):
         next_note = -1
-        options = mark_dict[new_intervals[i],]
+        tone_options = mark_dict[new_intervals[i],]
+        dur_options = dur_dict[new_durations[i],]
         while next_note not in possible_notes:
-            next_interval = random.choice(options)
+            next_interval = random.choice(tone_options)
             next_note = new_melody[i].tone + next_interval
+
         new_melody.append(Note(next_note))
         new_intervals.append(next_interval)
     return new_melody
@@ -150,10 +159,10 @@ ThisOld = Song(this_old_concrete)
 
 
 # Actually run stuff
-ThisOld.add_to_analysis(m_dict)
-MaryHad.add_to_analysis(m_dict)
-BaaBaa.add_to_analysis(m_dict)
-HotCross.add_to_analysis(m_dict)
+ThisOld.add_to_analysis(m_dict, d_dict)
+MaryHad.add_to_analysis(m_dict, d_dict)
+BaaBaa.add_to_analysis(m_dict, d_dict)
+HotCross.add_to_analysis(m_dict, d_dict)
 
 chain = create_markov_chain(m_dict)
-print(ThisOld.durations)
+print(d_dict)
