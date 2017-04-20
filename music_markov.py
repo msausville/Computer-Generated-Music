@@ -89,7 +89,14 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         next_duration = random.choice(dur_options)
         # makes sure the next duration would finish a measure
         while num_beats + float(next_duration) > 4:
-            next_duration = random.choice(dur_options)
+            counter = 0
+            for duration in dur_options:
+                if duration+num_beats < 4:
+                    next_duration = random.choice(dur_options)
+                else:
+                    counter += 1
+            if counter == len(dur_options):
+                next_duration = 4 - num_beats
         # reset number of beats in current measure
         num_beats = float(num_beats) + float(next_duration)
         if num_beats == 4:
