@@ -6,7 +6,7 @@ Hannah Kolano, Meaghen Sausville"""
 # from tkinter import messagebox
 # from tkinter import font
 import mido
-from musicreader import play_music
+# from musicreader import play_music
 import random
 
 class Note:
@@ -165,7 +165,7 @@ def main(filename):
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-    play_music(60,new_intervals)
+    # play_music(60,new_intervals)
 
 
 if __name__ == "__main__":
