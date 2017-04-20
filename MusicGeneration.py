@@ -104,18 +104,19 @@ def con_to_int(note_list):
     return int_list
 
 
-def bassline(startnote):
+def bassline(startnote, b_length):
     """
-    Creates a bassline and outputs as list of notes.
+    input: startnote, length of each note
+    Creates a bassline and outputs as list of note objects.
     """
     # list of possible notes
     use_scale = poss_notes(startnote, 'minor')
     # drops it down an octave
     octave_scale = [note - 12 for note in use_scale]
     total_notes = len(octave_scale)
-    bassline_notes = [startnote]
-    for i in range(total_notes//4):
-        bassline_notes.append(random.choice(octave_scale))
+    bassline_notes = [Note(startnote, b_length)]
+    for i in range(total_notes//b_length):
+        bassline_notes.append(Note(random.choice(octave_scale), b_length))
     return bassline_notes
 
 
