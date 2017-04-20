@@ -9,6 +9,7 @@ import mido
 # from musicreader import play_music
 import random
 
+
 class Note:
     def __init__(self, tone=60, volume=60, duration=1):
         """initializes a note object"""
@@ -19,6 +20,7 @@ class Note:
     def __str__(self):
         """prints the attributes of a note object"""
         return "'tone = %s', 'duration = %s', 'volume = %s'" % (str(self.tone), str(self.duration), str(self.volume))
+
 
 class Song:
     def __init__(self, notes_list):
@@ -68,7 +70,7 @@ def read_midi(filename):
 
             if is_new_note and may_be_note:
                 new_note = Note(msg.note, msg.velocity)
-                open_notes.append(new_note);
+                open_notes.append(new_note)
             # try:
             #     nextmsg = track[j+1]
             #     # print(nextmsg.time)
@@ -83,6 +85,7 @@ def MIDI_clean(filename):
     output: MIDI information
     """
     pass
+
 
 def MIDI_to_song(MIDI_info):
     """
@@ -101,10 +104,24 @@ def con_to_int(note_list):
     return int_list
 
 
-def harmony_analysis(notes):
-
+def bassline(startnote):
     """
-    Completes a harmony, arrangement, sectioning analysis and give better sounding song
+    Creates a bassline and outputs as list of notes.
+    """
+    # list of possible notes
+    use_scale = poss_notes(startnote, 'minor')
+    # drops it down an octave
+    octave_scale = [note - 12 for note in use_scale]
+    total_notes = len(octave_scale)
+    bassline_notes = [startnote]
+    for i in range(total_notes//4):
+        bassline_notes.append(random.choice(octave_scale))
+    return bassline_notes
+
+
+def harmony_analysis(notes, startnote):
+    """
+    Sections and produces better sounding song
     input: list of notes
     output: new list of notes
     """
@@ -144,6 +161,7 @@ def poss_notes(start_note, key_in='major'):
             counter += 1
     return possible_notes
 
+
 def main(filename):
     """
     Performs Markov analysis on many songs and
@@ -156,11 +174,12 @@ def main(filename):
         list_of_songs = [filename]
         m_dict = dict()
     for song in list_of_songs:
-    # cleaned = MIDI_clean(song)
-    # new_song_con = MIDI_to_song(cleaned)
+        # cleaned = MIDI_clean(song)
+        # new_song_con = MIDI_to_song(cleaned)
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(m_dict)
+
         new_intervals = create_markov_chain(m_dict, 60)
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
@@ -169,5 +188,5 @@ def main(filename):
 
 
 if __name__ == "__main__":
-   main('TwinkleTwinkleLittleStar.mid')
+    main('TwinkleTwinkleLittleStar.mid')
     # play_music()
