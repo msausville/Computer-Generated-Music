@@ -23,7 +23,7 @@ pre_len = 1                     # prefix length
 
 # Important Classes
 class Note:
-    def __init__(self, tone=60, volume=60, duration=1):
+    def __init__(self, tone=60, duration=1, volume=60):
         """initializes a note object"""
         self.tone = tone
         self.duration = duration
@@ -38,14 +38,22 @@ class Song:
         """creates a song object from a list of notes"""
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
+        self.process_durations()
 
-    def add_to_analysis(self, an_dict, pre_len=1):
+    def add_to_analysis(self, an_dict, all_durations, pre_len=1):
         """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
             prefix = tuple(intervals[i:i + pre_len])
             suffix = intervals[i + pre_len]
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
+
+
+    def process_durations(self):
+        self.durations = []
+        for note in self.concrete:
+            self.durations.append(note.duration)
+
 
 # Functions
 def con_to_int(note_list):
@@ -54,17 +62,6 @@ def con_to_int(note_list):
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
-
-
-def add_to_markov_dict(intervals):
-    """takes a song object and creates a markov dictionary
-    keys are PREFIX tuples
-    values is a list of integers that are SUFFIXES"""
-    for i in range(len(intervals)-pre_len):
-        prefix = tuple(intervals[i:i+pre_len])
-        suffix = intervals[i+pre_len]
-        m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
-
 
 def create_markov_chain(mark_dict, start_note=60, len_in_beats=32, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
@@ -153,10 +150,10 @@ ThisOld = Song(this_old_concrete)
 
 
 # Actually run stuff
-ThisOld.add_to_analysis()
-MaryHad.add_to_analysis()
-BaaBaa.add_to_analysis()
-HotCross.add_to_analysis()
+ThisOld.add_to_analysis(m_dict)
+MaryHad.add_to_analysis(m_dict)
+BaaBaa.add_to_analysis(m_dict)
+HotCross.add_to_analysis(m_dict)
 
 chain = create_markov_chain(m_dict)
-print(chain)
+print(ThisOld.durations)

@@ -11,7 +11,7 @@ import random
 
 
 class Note:
-    def __init__(self, tone=60, volume=60, duration=1):
+    def __init__(self, tone=60, duration=1, volume=60):
         """initializes a note object"""
         self.tone = tone
         self.duration = duration
