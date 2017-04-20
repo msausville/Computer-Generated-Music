@@ -15,13 +15,13 @@ import random
 #         self.duration = duration
 #         self.volume = volume
 
+
 class Note:
     def __init__(self, tone=60, duration=1, volume=60):
         """initializes a note object"""
         self.tone = tone
         self.duration = duration
         self.volume = volume
-
 
 
 class Song:
@@ -110,8 +110,12 @@ def con_to_int(note_list):
 def bassline(startnote, b_length):
     """
     input: startnote, length of each note
-    Creates a bassline and outputs as list of note objects.
+    Generates:
+    - randomely created bassline from scale
+    - two algorythmic basslines, each with a variation
+    All of these are returned as a list of note objects.
     """
+    startnote = startnote - 12
     # list of possible notes
     use_scale = poss_notes(startnote, 'minor')
     # drops it down an octave
@@ -119,7 +123,15 @@ def bassline(startnote, b_length):
     print('octaved scale: ', octave_scale)
     total_notes = len(octave_scale)
     bassline_notes = [Note(startnote, b_length)]
+    # I V VI IV:
+    line_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
+    # same but lower instead of higher
+    line_1_var = [startnote, startnote - 5, startnote - 3, startnote - 7]
+    # I VI IV V:
+    line_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
+    line_2_var = [startnote, startnote - 3, startnote - 7, startnote - 5]
     for i in range(total_notes//b_length):
+        # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
             random.choice(octave_scale[0:16]), b_length))
     return bassline_notes
@@ -194,6 +206,7 @@ def main(filename):
         print(type(new_intervals))
         print(new_intervals)
     play_music(new_intervals)
+
 
 if __name__ == "__main__":
     main('TwinkleTwinkleLittleStar.mid')
