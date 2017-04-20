@@ -31,49 +31,65 @@ class Song:
 
 
 def check_for_lyrics(single_track):
+    num_chnl = {}
+    maxItemCount = 0
+    lyric_channel = -1
+    for j in range(len(single_track)-1):
+        msg = single_track[j]
+        nextmsg = single_track[j+1]
+        if msg.type == 'lyrics' :
+            if nextmsg.type == 'note_on':
+                num_chnl[nextmsg.channel] =1+ num_chnl.get(nextmsg.channel, 0)
+                if num_chnl[nextmsg.channel] > maxItemCount:
+                    maxItemCount = num_chnl[nextmsg.channel]
+                    lyric_channel = nextmsg.channel
+                    print(lyric_channel)
+    return lyric_channel
+
+def track_to_list(track):
+    list_of_notes = []
+    open_notes = []
+    melody_channel = check_for_lyrics(track)
     for j in range(len(track)):
         msg = track[j]
-        if msg.type in ['lyrics', 'note_on'] :
+        if msg.type in ['lyrics'] :
             print(msg)
-    return lyric_channel
-    pass
+        # print(msg.type)
+        is_new_note = True
+        may_be_note = False
+        if msg.type == 'note_on' or msg.type == 'note_off':
+            if msg.channel == melody_channel or melody_channel == -1:
+                may_be_note = True
+                print(msg)
+        for old_note in open_notes:
+            # print(is_new_note)
+            old_note.duration += msg.time
+            if may_be_note:
+                if old_note.tone == msg.note:
+                    is_new_note = False
+                    if msg.type == 'note_on':
+                        if msg.velocity == 0:
+                            list_of_notes.append(old_note)
+                            open_notes.remove(old_note)
+                    elif msg.type == 'note_off':
+                        list_of_notes.append(old_note)
+                        open_notes.remove(old_note)
 
+        if is_new_note and may_be_note:
+            new_note = Note(msg.note, msg.velocity)
+            open_notes.append(new_note);
+    return list_of_notes
+    
 def read_midi(filename):
     mid = mido.MidiFile(filename)
     # print(mid)
-    list_of_notes = []
-    open_notes = []
+    
     for i, track in enumerate(mid.tracks):
         print('Track {}: {}'.format(i, track.name))
+        melody_channel = check_for_lyrics(track)
         # test_track = track[350]
         # print(track[350])
-        for j in range(len(track)):
-            msg = track[j]
-            if msg.type in ['lyrics', 'note_on'] :
-                print(msg)
-            # print(msg.type)
-            is_new_note = True
-            may_be_note = False
-            if msg.type == 'note_on' or msg.type == 'note_off':
-                # if msg.channel ==5:
-                may_be_note = True
-            for old_note in open_notes:
-                # print(is_new_note)
-                old_note.duration += msg.time
-                if may_be_note:
-                    if old_note.tone == msg.note:
-                        is_new_note = False
-                        if msg.type == 'note_on':
-                            if msg.velocity == 0:
-                                list_of_notes.append(old_note)
-                                open_notes.remove(old_note)
-                        elif msg.type == 'note_off':
-                            list_of_notes.append(old_note)
-                            open_notes.remove(old_note)
-
-            if is_new_note and may_be_note:
-                new_note = Note(msg.note, msg.velocity)
-                open_notes.append(new_note);
+        list_of_notes = track_to_list(track)
             # try:
             #     nextmsg = track[j+1]
             #     # print(nextmsg.time)
@@ -156,13 +172,7 @@ def play_song(song_intervals):
 	pass
 
 def main(filename):
-
-	"""
-	Performs Markov analysis on many songs and
-	input: takes an input of all file names
-	output: plays a song
-	"""
-    if type(filename) == list:
+    if type(filename) == 'list':
         list_of_songs = filename
     else:
         list_of_songs = [filename]
@@ -185,6 +195,11 @@ if __name__ == "__main__":
     # main('UpAllNight.mid')
     read_midi('UpAllNight.mid')
     # play_music()
+    
+    # mid = mido.MidiFile('UpAllNight.mid')
+    # for i, track in enumerate(mid.tracks):
+    #     print('Track {}: {}'.format(i, track.name))
+    #     check_for_lyrics(track)
 
 
 #The GUI draft (COMMENT OUT FOR NOW)
