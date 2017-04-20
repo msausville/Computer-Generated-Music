@@ -9,11 +9,13 @@ import mido
 from musicreader import play_music
 import random
 
+
 class Note:
     def __init__(self, tone = 60, volume = 60, duration = 0):
         self.tone = tone
         self.duration = duration
         self.volume = volume
+
 
 class Song:
     def __init__(self, notes_list):
@@ -63,7 +65,7 @@ def read_midi(filename):
 
             if is_new_note and may_be_note:
                 new_note = Note(msg.note, msg.velocity)
-                open_notes.append(new_note);
+                open_notes.append(new_note)
             # try:
             #     nextmsg = track[j+1]
             #     # print(nextmsg.time)
@@ -89,21 +91,40 @@ def MIDI_to_song(MIDI_info):
 
 
 def con_to_int(note_list):
-    """takes a song object and returns a list of note intervals"""
+    """takes in a list of notes and returns a list of note intervals"""
     int_list = []
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
 
 
-def harmony_analysis(notes):
+def bassline(startnote):
+    """
+    Creates a bassline and outputs as list of tuples.
+    Each tuple has intervals and note lengths
+    """
+    # list of possible notes
+    use_scale = poss_notes(startnote, 'minor')
+    # drops it down an octave
+    octave_scale = [note - 12 for note in use_scale]
+    total_notes = len(octave_scale)
+    bassline_notes = [startnote]
+    bass_int_tuple = []
+    for i in range(total_notes//4):
+        bassline_notes.append(random.choice(octave_scale))
+        bassline_intervals = con_to_int(bassline_notes)
+    for b in range(total_notes//4):
+        bass_int_tuple.append((bassline_intervals, 4))
+    return bass_int_tuple
 
-	"""
-	Completes a harmony, arrangement, sectioning analysis and give better sounding song
-	input: list of notes
-	output: new list of notes
-	"""
-	pass
+
+def harmony_analysis(notes, startnote):
+    """
+    Sections and produces better sounding song
+    input: list of notes
+    output: new list of notes
+    """
+    pass
 
 
 def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1):
@@ -173,10 +194,12 @@ def main(filename):
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-    play_music(57,new_intervals)
+    play_music(57, new_intervals)
 
 if __name__ == "__main__":
-    main('TwinkleTwinkleLittleStar.mid')
+    a = bassline(57)
+    print('bassline: ', a)
+    #main('TwinkleTwinkleLittleStar.mid')
     # play_music()
 
 #The GUI draft (COMMENT OUT FOR NOW)
