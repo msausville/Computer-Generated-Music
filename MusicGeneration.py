@@ -6,9 +6,14 @@ Hannah Kolano, Meaghen Sausville"""
 # from tkinter import messagebox
 # from tkinter import font
 import mido
-# from musicreader import play_music
+from musicreader import play_music, Note
 import random
 
+# class Note:
+#     def __init__(self, tone = 60, volume = 60, duration = 0):
+#         self.tone = tone
+#         self.duration = duration
+#         self.volume = volume
 
 class Note:
     def __init__(self, tone=60, duration=1, volume=60):
@@ -17,9 +22,6 @@ class Note:
         self.duration = duration
         self.volume = volume
 
-    def __str__(self):
-        """prints the attributes of a note object"""
-        return "'tone = %s', 'duration = %s', 'volume = %s'" % (str(self.tone), str(self.duration), str(self.volume))
 
 
 class Song:
@@ -78,6 +80,7 @@ def read_midi(filename):
             #     pass
     return list_of_notes
 
+
 def MIDI_clean(filename):
     """
     Cleans up the MIDI files
@@ -113,11 +116,16 @@ def bassline(startnote, b_length):
     use_scale = poss_notes(startnote, 'minor')
     # drops it down an octave
     octave_scale = [note - 12 for note in use_scale]
+    print('octaved scale: ', octave_scale)
     total_notes = len(octave_scale)
     bassline_notes = [Note(startnote, b_length)]
     for i in range(total_notes//b_length):
-        bassline_notes.append(Note(random.choice(octave_scale), b_length))
+        bassline_notes.append(Note(
+            random.choice(octave_scale[0:16]), b_length))
     return bassline_notes
+    # a = bassline(57, 4)
+    # b = [note.tone for note in a]
+    # print('notes in bassline: ', b)
 
 
 def harmony_analysis(notes, startnote):
@@ -136,7 +144,7 @@ def create_markov_chain(mark_dict, start_note=60, len_in_beats=32, pre_len=1):
     new_intervals = [0]
     for i in range(len_in_beats - pre_len):
         next_note = -1
-        options = mark_dict[new_intervals[i],]
+        options = mark_dict[new_intervals[i], ]
         while next_note not in possible_notes:
             next_interval = random.choice(options)
             next_note = new_melody[i].tone + next_interval
@@ -185,9 +193,21 @@ def main(filename):
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-    # play_music(60,new_intervals)
-
+    play_music(new_intervals)
 
 if __name__ == "__main__":
     main('TwinkleTwinkleLittleStar.mid')
+    # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
+
+#The GUI draft (COMMENT OUT FOR NOW)
+#fonts
+#Times10 = (family="Times",size=10,weight="bold")
+
+# top = Tk()
+# top.geometry("400x400")
+
+# #Function for Commands
+# def printchoice(e):
+# 	output = E.curselection()
+# 	print(output)
