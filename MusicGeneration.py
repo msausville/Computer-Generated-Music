@@ -6,14 +6,19 @@ Hannah Kolano, Meaghen Sausville"""
 # from tkinter import messagebox
 # from tkinter import font
 import mido
-from musicreader import play_music
+# from musicreader import play_music
 import random
 
 class Note:
-    def __init__(self, tone = 60, volume = 60, duration = 0):
+    def __init__(self, tone=60, volume=60, duration=1):
+        """initializes a note object"""
         self.tone = tone
         self.duration = duration
         self.volume = volume
+
+    def __str__(self):
+        """prints the attributes of a note object"""
+        return "'tone = %s', 'duration = %s', 'volume = %s'" % (str(self.tone), str(self.duration), str(self.volume))
 
 class Song:
     def __init__(self, notes_list):
@@ -89,7 +94,7 @@ def MIDI_to_song(MIDI_info):
 
 
 def con_to_int(note_list):
-    """takes a song object and returns a list of note intervals"""
+    """takes a list of note objects and returns a list of note intervals"""
     int_list = []
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
@@ -106,27 +111,24 @@ def harmony_analysis(notes):
     pass
 
 
-def create_markov_chain(mark_dict, start_note=60, len_in_measures=32, pre_len=1):
-    """takes a markov dicionary and returns a generated list of note intervals"""
-    new_melody = list(random.choice(list(mark_dict.keys())))
-    melody_concrete = [start_note]
-    possible_notes = poss_notes(start_note, 'minor')
-    for i in range(len(new_melody)):
-        melody_concrete.append(melody_concrete[i]+new_melody[i])
-    for i in range(len_in_measures - pre_len):
-        options = mark_dict[tuple(new_melody[i:i+pre_len])]
-        next_interval = random.choice(options)
-        next_note = melody_concrete[i+pre_len] + next_interval
+def create_markov_chain(mark_dict, start_note=60, len_in_beats=32, pre_len=1):
+    """takes a markov dict; returns a markov'd list of note objects"""
+    possible_notes = poss_notes(start_note, 'major')
+    new_melody = [Note(start_note)]
+    new_intervals = [0]
+    for i in range(len_in_beats - pre_len):
+        next_note = -1
+        options = mark_dict[new_intervals[i],]
         while next_note not in possible_notes:
             next_interval = random.choice(options)
-            next_note = melody_concrete[i+pre_len] + next_interval
-        new_melody.append(next_interval)
-        melody_concrete.append(next_note)
+            next_note = new_melody[i].tone + next_interval
+        new_melody.append(Note(next_note))
+        new_intervals.append(next_interval)
     return new_melody
 
 
 def poss_notes(start_note, key_in='major'):
-    '''takes a starting note; returns list of possible notes in major key of that note'''
+    '''takes a starting note; returns list of possible notes in major or minor key of that note'''
     if key_in == 'major':
         intervals = [2, 2, 1, 2, 2, 2, 1]
     elif key_in == 'minor':
@@ -141,16 +143,6 @@ def poss_notes(start_note, key_in='major'):
             possible_notes.append(new_note)
             counter += 1
     return possible_notes
-
-
-def play_song(song_intervals):
-    """
-    Plays the song
-    input: list of notes/intervals
-    output: *speaker output*
-    """
-    pass
-
 
 def main(filename):
     """
@@ -169,16 +161,13 @@ def main(filename):
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(m_dict)
-        new_intervals = create_markov_chain(m_dict, 57)
-    # new_intervals = NewSong.intervals
-    print(type(new_intervals))
-    print(new_intervals)
-    play_music(60,new_intervals)
+        new_intervals = create_markov_chain(m_dict, 60)
+        # new_intervals = NewSong.intervals
+        print(type(new_intervals))
+        print(new_intervals)
+    # play_music(60,new_intervals)
 
 
 if __name__ == "__main__":
    main('TwinkleTwinkleLittleStar.mid')
     # play_music()
-
-
-
