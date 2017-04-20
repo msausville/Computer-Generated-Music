@@ -41,7 +41,7 @@ class Song:
         self.intervals = con_to_int(self.concrete)
         self.process_durations()
 
-    def add_to_analysis(self, an_dict, measure_dict, pre_len=1):
+    def add_to_analysis(self, an_dict, duration_dict, pre_len=1):
         """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
@@ -50,9 +50,9 @@ class Song:
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
         durations = self.durations
         for i in range(len(durations)-pre_len):
-            prefix = tuple(durations[i:i + pre_len])
+            prefix = durations[i]
             suffix = durations[i+pre_len]
-            measure_dict[prefix] = measure_dict.get(prefix, tuple()) + (suffix,)
+            duration_dict[prefix] = duration_dict.get(prefix, tuple()) + (suffix,)
 
     def process_durations(self):
         self.durations = []
@@ -70,21 +70,34 @@ def con_to_int(note_list):
 
 def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
+    # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
-    new_melody = [Note(start_note)]
     new_intervals = [0]
-    new_durations = [random.choice(dur_dict.keys())]
-    num_beats = 0
+    first_duration = random.choice(dur_dict.keys())
+    new_durations = [first_duration]
+    new_melody = [Note(start_note, new_durations[0])]
+    num_beats = first_duration
+    # do this for as many beats as we want
     for i in range(len_in_beats - pre_len):
         next_note = -1
         tone_options = mark_dict[new_intervals[i],]
-        dur_options = dur_dict[new_durations[i],]
+        dur_options = dur_dict[new_durations[i]]
+        # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
             next_interval = random.choice(tone_options)
             next_note = new_melody[i].tone + next_interval
-
-        new_melody.append(Note(next_note))
+        next_duration = random.choice(dur_options)
+        # makes sure the next duration would finish a measure
+        while num_beats + float(next_duration) > 4:
+            next_duration = random.choice(dur_options)
+        # reset number of beats in current measure
+        num_beats = float(num_beats) + float(next_duration)
+        if num_beats == 4:
+            num_beats = 0
+        # append everything
+        new_melody.append(Note(next_note, next_duration))
         new_intervals.append(next_interval)
+        new_durations.append(next_duration)
     return new_melody
 
 
@@ -164,5 +177,6 @@ MaryHad.add_to_analysis(m_dict, d_dict)
 BaaBaa.add_to_analysis(m_dict, d_dict)
 HotCross.add_to_analysis(m_dict, d_dict)
 
-chain = create_markov_chain(m_dict)
-print(d_dict)
+chain = create_markov_chain(m_dict, d_dict)
+for note in chain:
+    print(note)
