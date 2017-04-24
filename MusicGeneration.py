@@ -6,36 +6,41 @@ Hannah Kolano, Meaghen Sausville"""
 # from tkinter import messagebox
 # from tkinter import font
 import mido
-from musicreader import play_music, Note
+# from musicreader import play_music, Note
 import random
 
-# class Note:
-#     def __init__(self, tone = 60, volume = 60, duration = 0):
-#         self.tone = tone
-#         self.duration = duration
-#         self.volume = volume
 
-# class Note:
-#     def __init__(self, tone=60, duration=1, volume=60):
-#         """initializes a note object"""
-#         self.tone = tone
-#         self.duration = duration
-#         self.volume = volume
-
+class Note:
+    def __init__(self, tone=60, duration=1, volume=60):
+        """initializes a note object"""
+        self.tone = tone
+        self.duration = duration
+        self.volume = volume
 
 class Song:
     def __init__(self, notes_list):
         """creates a song object from a list of notes"""
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
+        self.process_durations()
 
-    def add_to_analysis(self, an_dict, pre_len=1):
+    def add_to_analysis(self, an_dict, duration_dict, pre_len=1):
         """hey Song, add yourself to the markov dictionary"""
         intervals = self.intervals
         for i in range(len(intervals) - pre_len):
             prefix = tuple(intervals[i:i + pre_len])
             suffix = intervals[i + pre_len]
             an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
+        durations = self.durations
+        for i in range(len(durations)-pre_len):
+            prefix = durations[i]
+            suffix = durations[i+pre_len]
+            duration_dict[prefix] = duration_dict.get(prefix, tuple()) + (suffix,)
+
+    def process_durations(self):
+        self.durations = []
+        for note in self.concrete:
+            self.durations.append(note.duration)
 
 
 def check_for_lyrics(single_track):
@@ -189,19 +194,50 @@ def harmony_analysis(notes, startnote):
     pass
 
 
-def create_markov_chain(mark_dict, start_note=60, len_in_beats=32, pre_len=1):
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
+    # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
-    new_melody = [Note(start_note)]
     new_intervals = [0]
+    first_duration = random.choice(dur_dict.keys())
+    new_durations = [first_duration]
+    new_melody = [Note(start_note, new_durations[0])]
+    num_beats = first_duration
+    measure_counter = 0
+
+    # do this for as many beats as we want
     for i in range(len_in_beats - pre_len):
         next_note = -1
-        options = mark_dict[new_intervals[i], ]
+        tone_options = mark_dict[new_intervals[i],]
+        dur_options = dur_dict[new_durations[i]]
+
+        # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
-            next_interval = random.choice(options)
+            next_interval = random.choice(tone_options)
             next_note = new_melody[i].tone + next_interval
-        new_melody.append(Note(next_note))
+        next_duration = random.choice(dur_options)
+
+        # makes sure the next duration would finish a measure
+        while num_beats + float(next_duration) > 4:
+            counter = 0
+            for duration in dur_options:
+                if duration+num_beats < 4:
+                    next_duration = random.choice(dur_options)
+                else:
+                    counter += 1
+            if counter == len(dur_options):
+                next_duration = 4 - num_beats
+
+        # reset number of beats in current measure
+        num_beats = float(num_beats) + float(next_duration)
+        if num_beats == 4:
+            num_beats = 0
+            measure_counter += 1
+
+        # append everything
+        new_melody.append(Note(next_note, next_duration))
         new_intervals.append(next_interval)
+        new_durations.append(next_duration)
     return new_melody
 
 
@@ -235,19 +271,20 @@ def main(filename):
         list_of_songs = filename
     else:
         list_of_songs = [filename]
-        m_dict = dict()
+        note_dict = dict()
+        duration_dict = dict()
     for song in list_of_songs:
         # cleaned = MIDI_clean(song)
         # new_song_con = MIDI_to_song(cleaned)
         new_song_con = read_midi(filename)
         NewSong = Song(new_song_con)
-        NewSong.add_to_analysis(m_dict)
+        NewSong.add_to_analysis(note_dict, duration_dict)
 
         new_intervals = create_markov_chain(m_dict, 60)
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-    play_music(new_intervals)
+    # play_music(new_intervals)
 
 
 if __name__ == "__main__":

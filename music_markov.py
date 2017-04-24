@@ -18,52 +18,112 @@ import random
 # global variables
 m_dict = dict()                 # markov dictionary
 pre_len = 1                     # prefix length
+d_dict = dict()           # markov dict of measures
 # num_measures = 8                # number of desired measures, in 4/4, not implemented yet
 
 
 # Important Classes
+class Note:
+    def __init__(self, tone=60, duration=1, volume=60):
+        """initializes a note object"""
+        self.tone = tone
+        self.duration = duration
+        self.volume = volume
+
+    def __str__(self):
+        """prints the attributes of a note object"""
+        return "'tone = %s', 'duration = %s', 'volume = %s'" % (str(self.tone), str(self.duration), str(self.volume))
+
 class Song:
     def __init__(self, notes_list):
+        """creates a song object from a list of notes"""
         self.concrete = notes_list
         self.intervals = con_to_int(self.concrete)
+        self.process_durations()
 
-    def add_to_analysis(self):
-        add_to_markov_dict(self.intervals)
+    def add_to_analysis(self, an_dict, duration_dict, pre_len=1):
+        """hey Song, add yourself to the markov dictionary"""
+        intervals = self.intervals
+        for i in range(len(intervals) - pre_len):
+            prefix = tuple(intervals[i:i + pre_len])
+            suffix = intervals[i + pre_len]
+            an_dict[prefix] = an_dict.get(prefix, tuple()) + (suffix,)
+        durations = self.durations
+        for i in range(len(durations)-pre_len):
+            prefix = durations[i]
+            suffix = durations[i+pre_len]
+            duration_dict[prefix] = duration_dict.get(prefix, tuple()) + (suffix,)
 
-
-class Note:
-    def __init__(self, note, duration):
-        self.tone = note
-        self.duration = duration
+    def process_durations(self):
+        self.durations = []
+        for note in self.concrete:
+            self.durations.append(note.duration)
 
 
 # Functions
 def con_to_int(note_list):
-    """takes a song object and returns a list of note intervals"""
-    int_list = [0]
+    """takes a list of note objects and returns a list of note intervals"""
+    int_list = []
     for i in range(len(note_list)-1):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
 
-
-def add_to_markov_dict(intervals):
-    """takes a song object and creates a markov dictionary
-    keys are PREFIX tuples
-    values is a list of integers that are SUFFIXES"""
-    for i in range(len(intervals)-pre_len):
-        prefix = tuple(intervals[i:i+pre_len])
-        suffix = intervals[i+pre_len]
-        m_dict[prefix] = m_dict.get(prefix, tuple()) + (suffix,)
-
-
-def create_markov_chain(mark_dict):
-    """takes a markov dicionary and returns a generated list of note intervals"""
-    new_melody = list(random.choice(list(mark_dict.keys())))
-    for i in range(32 - pre_len):
-        options = m_dict[tuple(new_melody[i:i+pre_len])]
-        next_note = random.choice(options)
-        new_melody.append(next_note)
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
+    """takes a markov dict; returns a markov'd list of note objects"""
+    # initialize some variables
+    possible_notes = poss_notes(start_note, 'major')
+    new_intervals = [0]
+    first_duration = random.choice(dur_dict.keys())
+    new_durations = [first_duration]
+    new_melody = [Note(start_note, new_durations[0])]
+    num_beats = first_duration
+    # do this for as many beats as we want
+    for i in range(len_in_beats - pre_len):
+        next_note = -1
+        tone_options = mark_dict[new_intervals[i],]
+        dur_options = dur_dict[new_durations[i]]
+        # tone is right when it's in the possible notes list
+        while next_note not in possible_notes:
+            next_interval = random.choice(tone_options)
+            next_note = new_melody[i].tone + next_interval
+        next_duration = random.choice(dur_options)
+        # makes sure the next duration would finish a measure
+        while num_beats + float(next_duration) > 4:
+            counter = 0
+            for duration in dur_options:
+                if duration+num_beats < 4:
+                    next_duration = random.choice(dur_options)
+                else:
+                    counter += 1
+            if counter == len(dur_options):
+                next_duration = 4 - num_beats
+        # reset number of beats in current measure
+        num_beats = float(num_beats) + float(next_duration)
+        if num_beats == 4:
+            num_beats = 0
+        # append everything
+        new_melody.append(Note(next_note, next_duration))
+        new_intervals.append(next_interval)
+        new_durations.append(next_duration)
     return new_melody
+
+
+def poss_notes(start_note, key_in='major'):
+    '''takes a starting note; returns list of possible notes in major or minor key of that note'''
+    if key_in == 'major':
+        intervals = [2, 2, 1, 2, 2, 2, 1]
+    elif key_in == 'minor':
+        intervals = [2, 1, 2, 2, 1, 2, 2]
+    while start_note >= 36:
+        start_note += -12
+    possible_notes = [start_note]
+    counter = 0
+    for i in range(6):
+        for interval in intervals:
+            new_note = possible_notes[counter] + interval
+            possible_notes.append(new_note)
+            counter += 1
+    return possible_notes
 
 # options = prefixes_dict[tuple(prefix)]
 #         next_word = random.choice(options)
@@ -119,10 +179,11 @@ ThisOld = Song(this_old_concrete)
 
 
 # Actually run stuff
-ThisOld.add_to_analysis()
-MaryHad.add_to_analysis()
-BaaBaa.add_to_analysis()
-HotCross.add_to_analysis()
+ThisOld.add_to_analysis(m_dict, d_dict)
+MaryHad.add_to_analysis(m_dict, d_dict)
+BaaBaa.add_to_analysis(m_dict, d_dict)
+HotCross.add_to_analysis(m_dict, d_dict)
 
-chain = create_markov_chain(m_dict)
-print(chain)
+chain = create_markov_chain(m_dict, d_dict)
+for note in chain:
+    print(note)
