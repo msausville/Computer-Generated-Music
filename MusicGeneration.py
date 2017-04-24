@@ -6,7 +6,7 @@ Hannah Kolano, Meaghen Sausville"""
 # from tkinter import messagebox
 # from tkinter import font
 import mido
-# from musicreader import play_music, Note
+from musicreader import play_music, Note
 import random
 
 
