@@ -132,9 +132,10 @@ def con_to_int(note_list):
     return int_list
 
 
-def bassline(startnote, b_length):
+def bassline(startnote, b_length, riff='bass_random'):
     """
-    input: startnote, length of each note
+    input: startnote, length of each note, type of riff.
+    Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
     Generates:
     - randomely created bassline from scale
     - two algorythmic basslines, each with a variation
@@ -149,17 +150,31 @@ def bassline(startnote, b_length):
     total_notes = len(octave_scale)
     bassline_notes = [Note(startnote, b_length)]
     # I V VI IV:
-    line_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
+    riff_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
+    riff_1_N = [Note(item, b_length) for item in riff_1]
     # same but lower instead of higher
-    line_1_var = [startnote, startnote - 5, startnote - 3, startnote - 7]
+    riff_inv_1 = [startnote, startnote - 5, startnote - 3, startnote - 7]
+    riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
     # I VI IV V:
-    line_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
-    line_2_var = [startnote, startnote - 3, startnote - 7, startnote - 5]
+    riff_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
+    riff_2_N = [Note(stuff, b_length) for stuff in riff_2]
+    # Same but lower
+    riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
+    riff_inv_2_N = [Note(items, b_length) for items in riff_inv_2]
     for i in range(total_notes//b_length):
         # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
             random.choice(octave_scale[0:16]), b_length))
-    return bassline_notes
+    if riff == 'bass_random':
+        return bassline_notes
+    elif riff == 'pop_1':
+        return riff_1_N
+    elif riff == 'pop_1_inv':
+        return riff_inv_1_N
+    elif riff == 'pop_2':
+        return riff_2_N
+    elif riff == 'pop_2_inv':
+        return riff_inv_2_N
     # a = bassline(57, 4)
     # b = [note.tone for note in a]
     # print('notes in bassline: ', b)
