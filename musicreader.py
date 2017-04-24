@@ -1,8 +1,11 @@
 """Takes series of notes from markov chain and plays it"""
 
+"Ilya we just need a list of notes!"
 import atexit
 import os
 from random import choice
+from timeit import default_timer as timer
+
 
 from psonic import *
 
@@ -25,10 +28,9 @@ SAMPLE_FILE = os.path.join(SAMPLES_DIR, "bass_G2.wav")
 SAMPLE_NOTE = D2  # the sample file plays at this pitch
 
 
-def play_note(current_note,bpm = 120):
-    # note, beats=1, bpm=300, amp=100):
+
+def play_note(current_note,bpm = 300):
     """Plays note for `beats` beats. Returns when done."""
-    # `note` is this many half-steps higher than the sampled note
     note = current_note.tone
     beats = current_note.duration
     amp = current_note.volume
@@ -39,7 +41,9 @@ def play_note(current_note,bpm = 120):
     assert os.path.exists(SAMPLE_FILE)
     # Turn sample into an absolute path, since Sonic Pi is executing from a different working directory.
     play(note, amp=amp)
-    sleep(beats * 60 / bpm) #sleep(0.5) #
+    note_wait = beats * 60 / bpm
+    return note_wait
+    # sleep(beats * 60 / bpm) #sleep(0.5) #
 
 
 def stop():
@@ -54,43 +58,48 @@ atexit.register(stop)  # stop all tracks when the program exits normally or is i
 beats_per_minute = 45
 
 
-# major_intro = [2,2,1,2,2,2,1]
-# minor_intro = [-1 -1 -1 -1 -1 -2 -2]
-# major_intro_fancy = [(2,1),(2,2),(1,3),(2,0.5),(2,1),(2,1),(1,2)]
-# test_midi_notes = [64 65 66 67 68 69 70]
-def play_music(list_of_notes):
+def play_music(list_of_notes, list_of_notes_2):
+    melody_note_wait = 0
+    bass_note_wait = 0
     # print(list_of_notes)
     # curr_note = list_of_notes[0]
     # curr_note.beats = 1
     # curr_note.bpm = 100
     # curr_note.amp = 100
-    for current_note in list_of_notes:
-        play_note(current_note)
-        # try:
-        #     curr_note +=note
-        #     print('note: ', note)
-        #     if 0 <= curr_note:
-        #         play_note(curr_note, beats, bpm, amp)
-        #     else:
-        #         curr_note = 0
-        #         play_note(curr_note, beats, bpm, amp)
-        # except:
-        #     curr_note += note[0]
-        #     print('except note: ', note)
-        #     if 0 <= curr_note:
-        #         play_note(curr_note, note[1], bpm, amp)
-        #     else:
-        #         curr_note = 0
-        #         play_note(curr_note, note[1], bpm, amp)
+    playing = True
+    start = timer()
+    note_start_time = start
+    bass_start_time = start
+    current_note_index = 0
+    current_bass_index = 0
+    while playing:
+        current_time = timer()
+        if current_time - note_start_time > melody_note_wait:
+            melody_note_wait = play_note(list_of_notes[current_note_index])
+            note_start_time = current_time
+            current_note_index +=1
+            if current_note_index > len(list_of_notes):
+                playing = False
+        if current_time - bass_start_time > bass_note_wait:
+            bass_note_wait = play_note(list_of_notes_2[current_bass_index])
+            bass_start_time = current_time
+            current_bass_index +=1
+            if current_bass_index > len(list_of_notes):
+                playing = False
+        # bass_note_wait = play_note(current_note_2)
 
 
 if __name__ == "__main__":
-    # import random
-    # random.seed(1)
     list_of_notes = []
     test_midi_notes = [64, 65, 66, 67, 68, 69, 70]
+    list_of_notes_2 = []
+    test_2_midi_notes = [40, 41, 43, 44, 45, 46, 47]
 
     for i in range(5):
         random_note = Note(tone = test_midi_notes[i])
         list_of_notes.append(random_note)
-    play_music(list_of_notes)
+    for j in range(5):
+        random_note_2 = Note(tone = test_2_midi_notes[j])
+        list_of_notes_2.append(random_note_2)
+    play_music(list_of_notes, list_of_notes_2)
+    # play_music(list_of_notes) and play_music(list_of_notes_2)
