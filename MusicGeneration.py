@@ -6,16 +6,16 @@ Hannah Kolano, Meaghen Sausville"""
 # from tkinter import messagebox
 # from tkinter import font
 import mido
-from musicreader import play_music, Note
+# from musicreader import play_music, Note
 import random
 
 
-# class Note:
-#     def __init__(self, tone=60, duration=1, volume=60):
-#         """initializes a note object"""
-#         self.tone = tone
-#         self.duration = duration
-#         self.volume = volume
+class Note:
+    def __init__(self, tone=60, duration=1, volume=60):
+        """initializes a note object"""
+        self.tone = tone
+        self.duration = duration
+        self.volume = volume
 
 
 class Song:
@@ -177,6 +177,7 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
     new_durations = [first_duration]
     new_melody = [Note(start_note, new_durations[0])]
     num_beats = first_duration
+    measure_counter = 0
 
     # do this for as many beats as we want
     for i in range(len_in_beats - pre_len):
@@ -205,6 +206,7 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         num_beats = float(num_beats) + float(next_duration)
         if num_beats == 4:
             num_beats = 0
+            measure_counter += 1
 
         # append everything
         new_melody.append(Note(next_note, next_duration))
@@ -256,7 +258,7 @@ def main(filename):
         # new_intervals = NewSong.intervals
         print(type(new_intervals))
         print(new_intervals)
-    play_music(new_intervals)
+    # play_music(new_intervals)
 
 if __name__ == "__main__":
 
