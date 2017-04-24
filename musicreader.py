@@ -53,7 +53,7 @@ def stop():
 atexit.register(stop)  # stop all tracks when the program exits normally or is interrupted
 beats_per_minute = 45
 
-# curr_note = 60
+
 # major_intro = [2,2,1,2,2,2,1]
 # minor_intro = [-1 -1 -1 -1 -1 -2 -2]
 # major_intro_fancy = [(2,1),(2,2),(1,3),(2,0.5),(2,1),(2,1),(1,2)]
@@ -82,6 +82,7 @@ def play_music(list_of_notes):
         #     else:
         #         curr_note = 0
         #         play_note(curr_note, note[1], bpm, amp)
+
 
 if __name__ == "__main__":
     # import random
