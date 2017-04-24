@@ -93,11 +93,11 @@ def track_to_list(track):
             new_note = Note(msg.note, msg.velocity)
             open_notes.append(new_note);
     return list_of_notes
-    
+
 def read_midi(filename):
     mid = mido.MidiFile(filename)
     # print(mid)
-    
+
     for i, track in enumerate(mid.tracks):
         print('Track {}: {}'.format(i, track.name))
         melody_channel = check_for_lyrics(track)
@@ -138,11 +138,16 @@ def con_to_int(note_list):
     return int_list
 
 
-def bassline(startnote, b_length):
+def bassline(startnote, b_length, riff='bass_random'):
     """
-    input: startnote, length of each note
-    Creates a bassline and outputs as list of note objects.
+    input: startnote, length of each note, type of riff.
+    Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
+    Generates:
+    - randomely created bassline from scale
+    - two algorythmic basslines, each with a variation
+    All of these are returned as a list of note objects.
     """
+    startnote = startnote - 12
     # list of possible notes
     use_scale = poss_notes(startnote, 'minor')
     # drops it down an octave
@@ -150,10 +155,32 @@ def bassline(startnote, b_length):
     print('octaved scale: ', octave_scale)
     total_notes = len(octave_scale)
     bassline_notes = [Note(startnote, b_length)]
+    # I V VI IV:
+    riff_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
+    riff_1_N = [Note(item, b_length) for item in riff_1]
+    # same but lower instead of higher
+    riff_inv_1 = [startnote, startnote - 5, startnote - 3, startnote - 7]
+    riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
+    # I VI IV V:
+    riff_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
+    riff_2_N = [Note(stuff, b_length) for stuff in riff_2]
+    # Same but lower
+    riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
+    riff_inv_2_N = [Note(items, b_length) for items in riff_inv_2]
     for i in range(total_notes//b_length):
+        # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
             random.choice(octave_scale[0:16]), b_length))
-    return bassline_notes
+    if riff == 'bass_random':
+        return bassline_notes
+    elif riff == 'pop_1':
+        return riff_1_N
+    elif riff == 'pop_1_inv':
+        return riff_inv_1_N
+    elif riff == 'pop_2':
+        return riff_2_N
+    elif riff == 'pop_2_inv':
+        return riff_inv_2_N
     # a = bassline(57, 4)
     # b = [note.tone for note in a]
     # print('notes in bassline: ', b)
@@ -258,10 +285,11 @@ def main(filename):
         print(new_intervals)
     play_music(new_intervals)
 
+
 if __name__ == "__main__":
 
     # play_music()
-    
+
     # mid = mido.MidiFile('UpAllNight.mid')
     # for i, track in enumerate(mid.tracks):
     #     print('Track {}: {}'.format(i, track.name))
