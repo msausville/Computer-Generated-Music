@@ -38,7 +38,7 @@ def profile():
 		return render_template("UserInterface.html", song = song, pic = pic)
 	
 	#Renders the second pape template
-	return render_template("Toolbox.html")
+	return render_template("index.html")
 
 
 

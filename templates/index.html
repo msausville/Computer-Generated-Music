@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Computer Generated Music</title>
+
+	<style>
+
+	body {
+	height: 100%;
+	margin: 0;
+	text-align: center;
+	width: 100%;
+}
+
+h1 {
+	font-size: 32px;
+ font-family: Palatino, 'Palatino Linotype' , serif;
+  color: rgb(46,105,163);
+}
+
+h2 {
+	font-size: 56px;
+}
+
+
+.info {
+  color: black;
+  background-image: url("http://sev.h-cdn.co/assets/cm/15/07/54d858d5143e7_-_sev-one-direction-s2.jpg");
+  background-size: cover;
+  opacity: 0.5;
+  padding: 250px 0;
+  margin: 30px;
+  color: black;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+
+.info2{
+	position: relative;
+	left: 0px;
+	top: -200px;
+	font-weight: bold;
+
+}
+
+  .Welcome {
+    color: darkblue;
+    font-size: 40px;
+  }
+
+  .btn-primary{
+    padding: 16px 32px;
+    margin: 4px 2px;
+    cursor: crosshair;
+    color: white;
+    font-size: 22px;
+    background-color: #267356;
+    border: 2px solid #1F4B00;
+    border-radius: 4px;
+    }
+
+  select {
+    width: 30%;
+    padding: 16px 20px;
+    border: 2px solid #1F4B00;
+    border-radius: 4px;
+    background-color: #2A4E6E;
+    color: white;
+    font-size: 22px;
+    }
+
+.Title{
+  font-size: 50px;
+  font-weight: bold;
+
+}
+
+#AboutUs{
+  font-size: 30px;
+  font-weight: bold;
+  color: darkblue;
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+
+}
+
+p {
+  font-size: 2rem;
+}
+
+.hero a {
+	color: #ffff;
+	font-size: 1.25em;
+	text-decoration: none;
+}
+
+
+  div.gallery {
+      border: 1px solid #267356;
+      float: left;
+      width: 180px;
+      margin: 15px;
+  }
+
+  div.gallery:hover {
+      border: 1px solid #267356;
+  }
+
+  div.gallery img {
+      width: 100%;
+      height: 150px;
+  }
+
+  div.desc {
+      padding: 15px;
+      font-size: 10px;
+      text-align: center;
+  }
+
+
+	</style>
+
+
+
+</head>
+<body>
+	<p class = Title> Welcome to Computer Generated Music!</p>
+		<p id="AboutUs">Not particularly musically talented? Still want to create amazing harmonic pieces of musical art? This online web page was created so anyone with Internet access can generate beautiful music. All you have to do is download and open up the app Sonic Pi, pick a song that you like, and hit Play! A new song based off the song you picked will be generated and will play automatically by Markov Chain analysis and a touch of Music Theory.</p>
+
+	<div id="Formstuff">
+		<form action="/" method="POST">
+  	<select name="song">
+ 		<option value="NONE"> SONGS HERE </option>
+ 		<option value="Twinkle Twinkle Little Star"> Twinkle Twinkle Little Star </option>
+ 		<option value="Up All Night"> Up All Night</option>
+ 		<option value="What Makes You Beautiful"> What Makes You Beautiful</option>
+ 		<option value="The Best Song Ever">The Best Song Ever</option>
+ 	</select>
+ 	<br><br>
+ 	<input class= "btn-primary" type="submit" value="Play Song">
+		</form>
+	</div>
+	<div class="info">
+		<p class = "info2">Ready to make some music?</p>
+	</div>
+</body>
+</html>
