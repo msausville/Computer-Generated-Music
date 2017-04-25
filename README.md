@@ -2,6 +2,13 @@
 
 To set started, download Sonic Pi and fork this repo.
 
+To download Sonic Pi, put the following lines into your computer terminal.
+```
+$ sudo add-apt-repository ppa:sonic-pi/ppa
+$ sudo apt-get update
+$ sudo apt-get install sonic-pi
+```
+
 Want more information? Here is the link to our website:
 https://allisonlynnbasore14.github.io/ComputerMusic/
 
