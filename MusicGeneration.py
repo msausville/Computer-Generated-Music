@@ -283,9 +283,10 @@ def main(filename):
 
         new_intervals = create_markov_chain(note_dict, duration_dict, 60)
         # new_intervals = NewSong.intervals
-        print(type(new_intervals))
-        print(new_intervals)
-    # play_music(new_intervals)
+
+        # print(type(new_intervals))
+        # print(new_intervals)
+    play_music(new_intervals)
 
 
 if __name__ == "__main__":
