@@ -9,8 +9,12 @@ $ sudo apt-get update
 $ sudo apt-get install sonic-pi
 ```
 
+***** 
+
 #### Want more information? Here is the link to our website:
 https://allisonlynnbasore14.github.io/ComputerMusic/
+
+***** 
 
 # Computer-Generated-Music
 A team in softdes is making a program that can create its own melodies
