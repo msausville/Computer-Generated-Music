@@ -1,7 +1,12 @@
+
 ### Welcome to Computer Generated Music!
 
 To set started, download Sonic Pi and fork this repo.
 
+To run the app, run MusicWebApp.py with the following lines and head to the link that showns in your terminal.
+```
+$ python3 MusicWebbApp.py
+```
 To download Sonic Pi, put the following lines into your computer terminal.
 ```
 $ sudo add-apt-repository ppa:sonic-pi/ppa
