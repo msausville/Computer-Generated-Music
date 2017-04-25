@@ -9,7 +9,7 @@ $ sudo apt-get update
 $ sudo apt-get install sonic-pi
 ```
 
-Want more information? Here is the link to our website:
+#### Want more information? Here is the link to our website:
 https://allisonlynnbasore14.github.io/ComputerMusic/
 
 # Computer-Generated-Music
