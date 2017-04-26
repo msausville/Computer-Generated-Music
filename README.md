@@ -3,7 +3,7 @@
 
 To set started, download Sonic Pi and fork this repo.
 
-To run the app, run MusicWebApp.py with the following lines and head to the link that showns in your terminal.
+To run the app, run MusicWebApp.py with the following lines. To play music head to the web app with the link in the terminal.  
 ```
 $ python3 MusicWebbApp.py
 ```
