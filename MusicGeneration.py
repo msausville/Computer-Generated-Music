@@ -297,8 +297,12 @@ if __name__ == "__main__":
     # for i, track in enumerate(mid.tracks):
     #     print('Track {}: {}'.format(i, track.name))
     #     check_for_lyrics(track)
-
-    main('TwinkleTwinkleLittleStar.mid')
+    """ To generate a bassline(start note, length of each note, riff type)
+    use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
+    """
+    a = bassline(51, 2, 'pop_1')
+    print('Bassline ', a )
+    # main('TwinkleTwinkleLittleStar.mid')
     # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
 
