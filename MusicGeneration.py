@@ -10,13 +10,12 @@ from musicreader import play_music, Note
 import random
 
 
-# class Note:
-#     def __init__(self, tone=60, duration=1, volume=60):
-#         """initializes a note object"""
-#         self.tone = tone
-#         self.duration = duration
-#         self.volume = volume
-
+class Note:
+    def __init__(self, tone=60, duration=1, volume=60):
+        """initializes a note object"""
+        self.tone = tone
+        self.duration = duration
+        self.volume = volume
 
 class Song:
     def __init__(self, notes_list):
@@ -41,7 +40,7 @@ class Song:
     def process_durations(self):
         self.durations = []
         for note in self.concrete:
-            self.durations.append(note.duration)
+            self.durations.append(abs(note.duration))
 
 
 def check_for_lyrics(single_track):
@@ -200,15 +199,17 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
     # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
     new_intervals = [0]
-    first_duration = random.choice(dur_dict.keys())
+    first_duration = abs(random.choice(list(dur_dict.keys())))
     new_durations = [first_duration]
     new_melody = [Note(start_note, new_durations[0])]
     num_beats = first_duration
+    measure_counter = 0
 
     # do this for as many beats as we want
     for i in range(len_in_beats - pre_len):
         next_note = -1
         tone_options = mark_dict[new_intervals[i],]
+        print(new_durations)
         dur_options = dur_dict[new_durations[i]]
 
         # tone is right when it's in the possible notes list
@@ -232,6 +233,7 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         num_beats = float(num_beats) + float(next_duration)
         if num_beats == 4:
             num_beats = 0
+            measure_counter += 1
 
         # append everything
         new_melody.append(Note(next_note, next_duration))
@@ -279,10 +281,11 @@ def main(filename):
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(note_dict, duration_dict)
 
-        new_intervals = create_markov_chain(m_dict, 60)
+        new_intervals = create_markov_chain(note_dict, duration_dict, 60)
         # new_intervals = NewSong.intervals
-        print(type(new_intervals))
-        print(new_intervals)
+
+        # print(type(new_intervals))
+        # print(new_intervals)
     play_music(new_intervals)
 
 
