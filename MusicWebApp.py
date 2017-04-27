@@ -35,6 +35,7 @@ def profile():
 			pic = "https://scstylecaster.files.wordpress.com/2016/01/one-direction-breaking-up.jpg"
 
 		#This sets the template up with the recieved variables of song and picture	
+
 		return render_template("UserInterface.html", song = song, pic = pic)
 	
 	#Renders the second pape template
