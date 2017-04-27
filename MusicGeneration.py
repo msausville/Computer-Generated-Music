@@ -8,6 +8,7 @@ Hannah Kolano, Meaghen Sausville"""
 import mido
 from musicreader import play_music, Note
 import random
+import math
 
 
 class Note:
@@ -42,11 +43,16 @@ class Song:
         for note in self.concrete:
             self.durations.append(abs(note.duration))
 
+def roundPartial (value, resolution):
+    return math.ceil(value * resolution) / resolution
 
-def check_for_lyrics(single_track):
+def check_metadata(single_track):
     num_chnl = {}
     maxItemCount = 0
     lyric_channel = -1
+    bpm = 120
+    tempo = 50000
+    key = 'C'
     for j in range(len(single_track)-1):
         msg = single_track[j]
         nextmsg = single_track[j+1]
@@ -56,59 +62,78 @@ def check_for_lyrics(single_track):
                 if num_chnl[nextmsg.channel] > maxItemCount:
                     maxItemCount = num_chnl[nextmsg.channel]
                     lyric_channel = nextmsg.channel
-                    print(lyric_channel)
-    return lyric_channel
+        elif msg.type == 'set_tempo':
+            tempo = msg.tempo
+            bpm = mido.tempo2bpm(tempo)
+        elif msg.type == 'key_signature':
+            key = msg.key
+        
+    return lyric_channel, bpm, tempo, key
+    
 
-def track_to_list(track):
+def key_to_start_note(key):
+    list_of_keys = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+    list_of_notes = [60,61,62,63,64,65,66,67,68,69,70,71]
+    start_dict = dict(zip(list_of_keys,list_of_notes))
+    
+    start_note = start_dict.get(key,60)
+    return start_note
+
+def track_to_list(track,ticksinbeat,tempo,melody_channel):
     list_of_notes = []
     open_notes = []
-    melody_channel = check_for_lyrics(track)
     for j in range(len(track)):
         msg = track[j]
-        if msg.type in ['lyrics'] :
-            print(msg)
+        # if msg.type in ['lyrics'] :
+        #     print(msg)
         # print(msg.type)
         is_new_note = True
         may_be_note = False
         if msg.type == 'note_on' or msg.type == 'note_off':
+            # print('found a note')
+            # print(msg.channel)
             if msg.channel == melody_channel or melody_channel == -1:
                 may_be_note = True
-                print(msg)
+                # print(msg)
         for old_note in open_notes:
             # print(is_new_note)
-            old_note.duration += msg.time
+            # print(msg.time/ticksinbeat)
+            # print(ticksinbeat)
+            added_length = msg.time/ticksinbeat
+            # print(old_note.duration)
+            old_note.duration += added_length
+            # print(old_note.duration)
+            # print(old_note.duration)
             if may_be_note:
                 if old_note.tone == msg.note:
                     is_new_note = False
-                    if msg.type == 'note_on':
-                        if msg.velocity == 0:
+                    if (msg.type == 'note_on' and msg.velocity == 0) or msg.type == 'note_off':
+                            old_note.duration = roundPartial(old_note.duration,8)
                             list_of_notes.append(old_note)
+                            # print(old_note.duration)
+                            # print(old_note.tone)
                             open_notes.remove(old_note)
-                    elif msg.type == 'note_off':
-                        list_of_notes.append(old_note)
-                        open_notes.remove(old_note)
+
 
         if is_new_note and may_be_note:
-            new_note = Note(msg.note, msg.velocity)
+            new_note = Note(msg.note, 0, msg.velocity)
             open_notes.append(new_note);
     return list_of_notes
 
 def read_midi(filename):
     mid = mido.MidiFile(filename)
+    ticksperbeat=mid.ticks_per_beat
+    print(ticksperbeat)
     # print(mid)
 
     for i, track in enumerate(mid.tracks):
         print('Track {}: {}'.format(i, track.name))
-        melody_channel = check_for_lyrics(track)
-        # test_track = track[350]
-        # print(track[350])
-        list_of_notes = track_to_list(track)
-            # try:
-            #     nextmsg = track[j+1]
-            #     # print(nextmsg.time)
-            # except:
-            #     pass
-    return list_of_notes
+        
+        melody_channel, bpm, tempo, key = check_metadata(track)
+        list_of_notes = track_to_list(track,ticksperbeat,tempo,melody_channel)
+        start_note = key_to_start_note(key)
+        print(start_note)
+    return list_of_notes, bpm, start_note
 
 
 def MIDI_clean(filename):
@@ -277,7 +302,7 @@ def main(filename):
     for song in list_of_songs:
         # cleaned = MIDI_clean(song)
         # new_song_con = MIDI_to_song(cleaned)
-        new_song_con = read_midi(filename)
+        new_song_con, bmp, start_note = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(note_dict, duration_dict)
 
@@ -298,9 +323,10 @@ if __name__ == "__main__":
     #     print('Track {}: {}'.format(i, track.name))
     #     check_for_lyrics(track)
 
-    main('TwinkleTwinkleLittleStar.mid')
+    # main('TwinkleTwinkleLittleStar.mid')
     # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
+    read_midi('UpAllNight.mid')
 
 
 #The GUI draft (COMMENT OUT FOR NOW)
