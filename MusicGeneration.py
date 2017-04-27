@@ -171,26 +171,38 @@ def bassline(startnote, b_length, riff='bass_random'):
     - two algorythmic basslines, each with a variation
     All of these are returned as a list of note objects.
     """
+    # in beats, 4 beats per measure
+    song_beats = 32
+    song_measures = song_beats // 4
+    measure_per_riff = b_length
+    riff_per_song = song_measures // b_length
+    # bass_repeats = song_beats // ((b_length*4)//4)
+    print(song_measures, 'measures per song,', b_length, 'measures per riff.')
+    print('Riff repeats :', riff_per_song, 'times!')
     startnote = startnote - 12
     # list of possible notes
     use_scale = poss_notes(startnote, 'minor')
     # drops it down an octave
     octave_scale = [note - 12 for note in use_scale]
-    print('octaved scale: ', octave_scale)
+    # print('octaved scale: ', octave_scale)
     total_notes = len(octave_scale)
     bassline_notes = [Note(startnote, b_length)]
     # I V VI IV:
     riff_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
     riff_1_N = [Note(item, b_length) for item in riff_1]
+    riff_1_N_full = [Note(item, b_length) for item in riff_1]
     # same but lower instead of higher
     riff_inv_1 = [startnote, startnote - 5, startnote - 3, startnote - 7]
     riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
+    riff_inv_1_full = [Note(thing, b_length) for thing in riff_inv_1]
     # I VI IV V:
     riff_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
     riff_2_N = [Note(stuff, b_length) for stuff in riff_2]
+    riff_2_N_full = [Note(stuff, b_length) for stuff in riff_2]
     # Same but lower
     riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
-    riff_inv_2_N = [Note(items, b_length) for items in riff_inv_2]
+    riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
+    riff_inv_1_N_full = [Note(thing, b_length) for thing in riff_inv_1]
     for i in range(total_notes//b_length):
         # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
@@ -198,13 +210,26 @@ def bassline(startnote, b_length, riff='bass_random'):
     if riff == 'bass_random':
         return bassline_notes
     elif riff == 'pop_1':
-        return riff_1_N
+        for i in range(riff_per_song):
+            # print('extending')
+            riff_1_N_full.extend(riff_1_N)
+        print('Your bassline: ', riff_1_N_full)
+        return riff_1_N_full
     elif riff == 'pop_1_inv':
-        return riff_inv_1_N
+        for i in range(riff_per_song):
+            # print('extending')
+            riff_inv_1_N_full.extend(riff_inv_1_N)
+        return riff_inv_1_N_full
     elif riff == 'pop_2':
-        return riff_2_N
+        for i in range(riff_per_song):
+            # print('extending')
+            riff_2_N_full.extend(riff_2_N)
+        return riff_2_N_full
     elif riff == 'pop_2_inv':
-        return riff_inv_2_N
+        for i in range(riff_per_song):
+            # print('extending')
+            riff_inv_2_N_full.extend(riff_inv_2_N)
+        return riff_inv_2_N_full
     # a = bassline(57, 4)
     # b = [note.tone for note in a]
     # print('notes in bassline: ', b)
@@ -286,13 +311,13 @@ def poss_notes(start_note, key_in='major'):
 
 
 def main(filename):
-
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
-
+    startnote = 51
+    b_length = 2
     if type(filename) == 'list':
         list_of_songs = filename
     else:
@@ -307,12 +332,15 @@ def main(filename):
         NewSong.add_to_analysis(note_dict, duration_dict)
 
         new_intervals = create_markov_chain(note_dict, duration_dict, 60)
+        """ To generate a bassline(start note, length of each note, riff type)
+        use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
+        """
+        bassline_notes = bassline(startnote, b_length, 'pop_1')
         # new_intervals = NewSong.intervals
 
         # print(type(new_intervals))
         # print(new_intervals)
-    play_music(new_intervals)
-
+    # play_music(new_intervals, bassline_notes)
 
 if __name__ == "__main__":
 
@@ -330,6 +358,7 @@ if __name__ == "__main__":
     # print('Bassline ', a )
     # 
     # # main('TwinkleTwinkleLittleStar.mid')
+
     # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
     read_midi('UpAllNight.mid')
