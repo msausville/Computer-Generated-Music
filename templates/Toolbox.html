@@ -2,7 +2,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="jquery-3.2.0.min.js"></script>
+	<style>
+
+
+	select {
+    width: 30%;
+    padding: 16px 20px;
+    border: 2px solid #1F4B00;
+    border-radius: 4px;
+    background-color: #2A4E6E;
+    color: white;
+    position: absolute;
+    top:500px;
+    left:700px;
+    font-size: 22px;
+		}
+
+	.btn-primary{
+		padding: 16px 32px;
+		margin: 4px 2px;
+		cursor: crosshair;
+		color: white;
+		position: absolute;
+		left: 900px;
+		top: 600px;
+		font-size: 22px;
+		background-color: #267356;
+		border: 2px solid #1F4B00;
+    border-radius: 4px;
+		}
+
+	#Image1{
+		border:10px solid #021a40;
+		background-color: #267356;
+		position: absolute;
+		width: 200px;
+		height: 300px;
+  		top: 500px;
+  		left: 1300px;
+  		margin: 5px;
+	}
+
+  .Welcome{
+    font-weight: bold;
+  }
+
+	#Image2{
+		border:10px solid #021a40;
+		background-color: #267356;
+		position: absolute;
+		width: 200px;
+		height: 300px;
+  		top: 500px;
+  		left: 100px;
+  		margin: 5px;
+	}
+
+
+
+
+	.mainText{
+		position: relative;
+		top: 0px;
+		left: 350px;
+		font-size: 30px;
+		font-weight: bold;
+		width: 1000px;
+		padding: 50px;
+		margin: 5px;
+
+
+	}
+
+		}
+
+	</style>
 </head>
 <style>
 body{
@@ -14,12 +88,13 @@ body{
 <body>
 
 <title>HomeScreen</title>
-
-<p><p align='center'><font size = '30'>Ready to make some music?!?</font></p>
-<p><p align='center'> <font size = '5'>(Make sure Sonic Pi is open and your new song will play!)</p>
+<div class ='Welcome'>
+<p><p align='center'><font size = '50'>Ready to make some music?!?</font></p>
+<p><p align='center'> <font size = '20'>(Make sure Sonic Pi is open and your new song will play!)</p>
 <div style="position: fixed; top: 500px; left: 500px; width: 800px; height: 200px; " > <p>
+</div>
 
-<font size = '6'><center>Not particularly musically talented? Still want to create amazing harmonic pieces of musical art? This online web page was created so anyone with Internet access can generate beautiful music. All you have to do is download and open up the app “Sonic Pi,” pick a song that you like, and hit Play! A new song based off the song you picked will be generated and will play automatically by Markov Chain analysis and a touch of Music Theory.</center></font></p></div>
+<div class = mainText align = 'center'> Not particularly musically talented? Still want to create amazing harmonic pieces of musical art? This online web page was created so anyone with Internet access can generate beautiful music. All you have to do is download and open up the app “Sonic Pi,” pick a song that you like, and hit Play! A new song based off the song you picked will be generated and will play automatically by Markov Chain analysis and a touch of Music Theory.</div>
 
  <center><form action="/" method="POST">
   	<select name="song">
@@ -30,10 +105,10 @@ body{
  		<option value="The Best Song Ever">The Best Song Ever</option>
  	</select>
  	<br><br>
- 	<input class= "btn btn-primary" type="submit" value="Play Song">
+ 	<input class= "btn-primary" type="submit" value="Play Song">
 </form></center> 
-<IMG STYLE="position:fixed; TOP:50px; LEFT:1300px; WIDTH:400px; HEIGHT:400px" SRC="http://vignette1.wikia.nocookie.net/fairytailfanon/images/f/f1/Musical_note.png/revision/latest?cb=20130809070733" alt="Musical Notes">
-<IMG STYLE="position:fixed; TOP:50px; LEFT:200px; WIDTH:400px; HEIGHT:400px" SRC="http://vignette1.wikia.nocookie.net/fairytailfanon/images/f/f1/Musical_note.png/revision/latest?cb=20130809070733" alt="Musical Notes">
+
 </body>
 </html>
+
 
