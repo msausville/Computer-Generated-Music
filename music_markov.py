@@ -68,7 +68,7 @@ def con_to_int(note_list):
         int_list.append(note_list[i+1].tone - note_list[i].tone)
     return int_list
 
-def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_measures=12, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
     # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
@@ -78,14 +78,16 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
     new_melody = [Note(start_note, new_durations[0])]
     num_beats = first_duration
     # do this for as many beats as we want
-    for i in range(len_in_beats - pre_len):
+    n = 0
+    num_measures = 0
+    while num_measures < len_in_measures:
         next_note = -1
-        tone_options = mark_dict[new_intervals[i],]
-        dur_options = dur_dict[new_durations[i]]
+        tone_options = mark_dict[new_intervals[n],]
+        dur_options = dur_dict[new_durations[n]]
         # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
             next_interval = random.choice(tone_options)
-            next_note = new_melody[i].tone + next_interval
+            next_note = new_melody[n].tone + next_interval
         next_duration = random.choice(dur_options)
         # makes sure the next duration would finish a measure
         while num_beats + float(next_duration) > 4:
@@ -101,10 +103,12 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         num_beats = float(num_beats) + float(next_duration)
         if num_beats == 4:
             num_beats = 0
+            num_measures += 1
         # append everything
         new_melody.append(Note(next_note, next_duration))
         new_intervals.append(next_interval)
         new_durations.append(next_duration)
+        n += 1
     return new_melody
 
 

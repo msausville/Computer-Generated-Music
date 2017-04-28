@@ -244,7 +244,7 @@ def harmony_analysis(notes, startnote):
     pass
 
 
-def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_measures=12, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
     # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
@@ -254,18 +254,18 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
     new_melody = [Note(start_note, new_durations[0])]
     num_beats = first_duration
     measure_counter = 0
-
+    n = 0
     # do this for as many beats as we want
-    for i in range(len_in_beats - pre_len):
+    while measure_counter < len_in_measures
         next_note = -1
-        tone_options = mark_dict[new_intervals[i],]
+        tone_options = mark_dict[new_intervals[n],]
         print(new_durations)
-        dur_options = dur_dict[new_durations[i]]
+        dur_options = dur_dict[new_durations[n]]
 
         # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
             next_interval = random.choice(tone_options)
-            next_note = new_melody[i].tone + next_interval
+            next_note = new_melody[n].tone + next_interval
         next_duration = random.choice(dur_options)
 
         # makes sure the next duration would finish a measure
@@ -289,6 +289,7 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         new_melody.append(Note(next_note, next_duration))
         new_intervals.append(next_interval)
         new_durations.append(next_duration)
+        n += 1
     return new_melody
 
 
