@@ -344,7 +344,7 @@ def main(filename):
 
 if __name__ == "__main__":
 
-    # play_music()
+    #play_music()
 
     # mid = mido.MidiFile('UpAllNight.mid')
     # for i, track in enumerate(mid.tracks):
@@ -357,9 +357,9 @@ if __name__ == "__main__":
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
     # 
-    # # main('TwinkleTwinkleLittleStar.mid')
+    main('TwinkleTwinkleLittleStar.mid')
 
-    # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
+    main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
     read_midi('UpAllNight.mid')
 
