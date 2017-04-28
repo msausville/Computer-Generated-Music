@@ -67,15 +67,15 @@ def check_metadata(single_track):
             bpm = mido.tempo2bpm(tempo)
         elif msg.type == 'key_signature':
             key = msg.key
-        
+
     return lyric_channel, bpm, tempo, key
-    
+
 
 def key_to_start_note(key):
     list_of_keys = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
     list_of_notes = [60,61,62,63,64,65,66,67,68,69,70,71]
     start_dict = dict(zip(list_of_keys,list_of_notes))
-    
+
     start_note = start_dict.get(key,60)
     return start_note
 
@@ -128,7 +128,7 @@ def read_midi(filename):
 
     for i, track in enumerate(mid.tracks):
         print('Track {}: {}'.format(i, track.name))
-        
+
         melody_channel, bpm, tempo, key = check_metadata(track)
         list_of_notes = track_to_list(track,ticksperbeat,tempo,melody_channel)
         start_note = key_to_start_note(key)
@@ -342,6 +342,7 @@ def main(filename):
         # print(new_intervals)
     # play_music(new_intervals, bassline_notes)
 
+
 if __name__ == "__main__":
 
     #play_music()
@@ -356,8 +357,13 @@ if __name__ == "__main__":
     # """
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
+<<<<<<< HEAD
     # 
     main('TwinkleTwinkleLittleStar.mid')
+=======
+    #
+    # # main('TwinkleTwinkleLittleStar.mid')
+>>>>>>> 9f9afe34bbf07be5918899d55314641709e9fad1
 
     main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
