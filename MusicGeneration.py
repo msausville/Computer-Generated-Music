@@ -310,7 +310,7 @@ def poss_notes(start_note, key_in='major'):
     return possible_notes
 
 
-def main(filename, user_picked_bassline=pop_1):
+def main(filename, user_picked_bassline='pop_1'):
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
@@ -318,6 +318,7 @@ def main(filename, user_picked_bassline=pop_1):
     """
     startnote = 51
     b_length = 2
+    print(user_picked_bassline,filename)
     if type(filename) == 'list':
         list_of_songs = filename
     else:

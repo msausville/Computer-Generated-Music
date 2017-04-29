@@ -23,19 +23,19 @@ def profile():
 		#the call to the main function calls the MusicGeneration.py to make the song
 
 		if song == "The Best Song Ever":
-			main('UpAllNight.mid','bassline')
+			main('UpAllNight.mid',bassline)
 			pic = "https://i.kinja-img.com/gawker-media/image/upload/s--qn6H3zL3--/c_scale,fl_progressive,q_80,w_800/jiszvtpozcrbbzxrxmq6.jpg"
 		elif song == "Twinkle Twinkle Little Star":
-			main('TwinkleTwinkleLittleStar.mid','bassline')
+			main('TwinkleTwinkleLittleStar.mid',bassline)
 			pic = "http://img.clipartall.com/yellow-star-border-clip-art-clipart-panda-free-clipart-images-yellow-star-clipart-552_599.png"
 		elif song == "What Makes You Beautiful":
-			main('WhatMakesYouBeautiful.mid','bassline')
+			main('WhatMakesYouBeautiful.mid',bassline)
 			pic = "http://www.billboard.com/files/stylus/1977869-one-direction-brisbane-617-409.jpg"
 		elif song == "Up All Night":
-			main('UpAllNight.mid','bassline')
+			main('UpAllNight.mid',bassline)
 			pic = "https://cdn.gobankingrates.com/wp-content/uploads/One-Direction.png"
 		else:
-			main('WhatMakesYouBeautiful.mid','bassline')
+			main('WhatMakesYouBeautiful.mid',bassline)
 			pic = "https://scstylecaster.files.wordpress.com/2016/01/one-direction-breaking-up.jpg"
 
 		#This sets the template up with the recieved variables of song and picture	
