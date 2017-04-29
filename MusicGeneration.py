@@ -310,7 +310,7 @@ def poss_notes(start_note, key_in='major'):
     return possible_notes
 
 
-def main(filename):
+def main(filename, user_picked_bassline=pop_1):
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
@@ -335,7 +335,7 @@ def main(filename):
         """ To generate a bassline(start note, length of each note, riff type)
         use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
         """
-        bassline_notes = bassline(startnote, b_length, 'pop_1')
+        bassline_notes = bassline(startnote, b_length, user_picked_bassline)
         # new_intervals = NewSong.intervals
 
         # print(type(new_intervals))
@@ -357,7 +357,7 @@ if __name__ == "__main__":
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
     # 
-    main('TwinkleTwinkleLittleStar.mid')
+    main('TwinkleTwinkleLittleStar.mid', pop_1)
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
