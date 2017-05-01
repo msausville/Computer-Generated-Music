@@ -361,6 +361,7 @@ if __name__ == "__main__":
     # print('Bassline ', a )
 
     # 
+    main('TwinkleTwinkleLittleStar.mid', 'pop_1')
     main('UpAllNight.mid', 'pop_1')
 
 
