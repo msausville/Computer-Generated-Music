@@ -174,7 +174,7 @@ def bassline(startnote, song_length, riff='bass_random'):
     b_length = 2
     # in beats, 4 beats per measure
     # song_beats = 32
-    song_measures = song_length # song_beats // 4
+    song_measures = song_length  # song_beats // 4
     measure_per_riff = b_length
     riff_per_song = song_measures // b_length
     # bass_repeats = song_beats // ((b_length*4)//4)
@@ -191,49 +191,30 @@ def bassline(startnote, song_length, riff='bass_random'):
     # I V VI IV:
     riff_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
     riff_1_N = [Note(item, b_length) for item in riff_1]
-    riff_1_N_full = [Note(item, b_length) for item in riff_1]
     # same but lower instead of higher
     riff_inv_1 = [startnote, startnote - 5, startnote - 3, startnote - 7]
     riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
-    riff_inv_1_N_full = [Note(thing, b_length) for thing in riff_inv_1]
     # I VI IV V:
     riff_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
     riff_2_N = [Note(stuff, b_length) for stuff in riff_2]
-    riff_2_N_full = [Note(stuff, b_length) for stuff in riff_2]
     # Same but lower
     riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
     riff_inv_2_N = [Note(thing, b_length) for thing in riff_inv_2]
-    riff_inv_2_N_full = [Note(thing, b_length) for thing in riff_inv_1]
+    # randomely picks notes from a bottom section of the scale
     for i in range(total_notes//b_length):
-        # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
             random.choice(octave_scale[0:16]), b_length))
+
     if riff == 'bass_random':
         return bassline_notes
     elif riff == 'pop_1':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_1_N_full.extend(riff_1_N)
-        # print('Your bassline: ', riff_1_N_full)
-        return riff_1_N_full
+        return riff_1_N * riff_per_song
     elif riff == 'pop_1_inv':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_inv_1_N_full.extend(riff_inv_1_N)
-        return riff_inv_1_N_full
+        return riff_inv_1_N * riff_per_song
     elif riff == 'pop_2':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_2_N_full.extend(riff_2_N)
-        return riff_2_N_full
+        return riff_2_N * riff_per_song
     elif riff == 'pop_2_inv':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_inv_2_N_full.extend(riff_inv_2_N)
-        return riff_inv_2_N_full
-    # a = bassline(57, 4)
-    # b = [note.tone for note in a]
-    # print('notes in bassline: ', b)
+        return riff_inv_2_N * riff_per_song
 
 
 def harmony_analysis(notes, startnote):
