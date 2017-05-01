@@ -359,7 +359,11 @@ if __name__ == "__main__":
     # """
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
-    main('TwinkleTwinkleLittleStar.mid', 'pop_1')
+
+    # 
+    main('UpAllNight.mid', 'pop_1')
+
+
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
     #read_midi('UpAllNight.mid')

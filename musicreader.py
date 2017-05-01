@@ -29,7 +29,7 @@ SAMPLE_NOTE = D2  # the sample file plays at this pitch
 
 
 
-def play_note(current_note,bpm = 300):
+def play_note(current_note,bpm = 120):
     """Plays note for `beats` beats. Returns when done."""
     note = current_note.tone
     beats = current_note.duration
@@ -78,7 +78,7 @@ def play_music(list_of_notes, list_of_notes_2):
             melody_note_wait = play_note(list_of_notes[current_note_index])
             note_start_time = current_time
             current_note_index +=1
-            if current_note_index > len(list_of_notes):
+            if current_note_index >= len(list_of_notes):
                 playing = False
         if current_time - bass_start_time > bass_note_wait:
             bass_note_wait = play_note(list_of_notes_2[current_bass_index])
