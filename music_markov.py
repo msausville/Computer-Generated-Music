@@ -18,7 +18,7 @@ import random
 # global variables
 m_dict = dict()                 # markov dictionary
 pre_len = 1                     # prefix length
-d_dict = dict()           # markov dict of measures
+d_dict = dict()                 # markov dict of measures
 # num_measures = 8                # number of desired measures, in 4/4, not implemented yet
 
 

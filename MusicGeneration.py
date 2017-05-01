@@ -310,12 +310,13 @@ def poss_notes(start_note, key_in='major'):
     return possible_notes
 
 
-def main(filename):
+def main(filename, user_picked_bassline='pop_1'):
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
+    print(user_picked_bassline, filename)
     if type(filename) == 'list':
         list_of_songs = filename
     else:
@@ -335,16 +336,16 @@ def main(filename):
         use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
         """
         b_length = 2
-        bassline_notes = bassline(start_note, b_length, 'pop_1')
+        bassline_notes = bassline(start_note, b_length, user_picked_bassline)
         # new_intervals = NewSong.intervals
 
         # print(type(new_intervals))
         # print(new_intervals)
-    # play_music(new_intervals, bassline_notes)
+    play_music(new_intervals, bassline_notes)
 
 if __name__ == "__main__":
 
-    # play_music()
+    #play_music()
 
     # mid = mido.MidiFile('UpAllNight.mid')
     # for i, track in enumerate(mid.tracks):
@@ -356,12 +357,10 @@ if __name__ == "__main__":
     # """
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
-    #
-    # # main('TwinkleTwinkleLittleStar.mid')
-
-    # main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
+    main('TwinkleTwinkleLittleStar.mid', 'pop_1')
+    #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
-    read_midi('UpAllNight.mid')
+    #read_midi('UpAllNight.mid')
 
 
 #The GUI draft (COMMENT OUT FOR NOW)
