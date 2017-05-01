@@ -171,7 +171,7 @@ def bassline(startnote, song_length, riff='bass_random'):
     - two algorythmic basslines, each with a variation
     All of these are returned as a list of note objects.
     """
-    b_length = 2
+    b_length = 4
     # in beats, 4 beats per measure
     # song_beats = 32
     song_measures = song_length  # song_beats // 4
@@ -201,14 +201,12 @@ def bassline(startnote, song_length, riff='bass_random'):
     riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
     riff_inv_2_N = [Note(thing, b_length) for thing in riff_inv_2]
     # randomely picks notes from a bottom section of the scale
+    bassline_notes = [Note(startnote, b_length)]
+    for i in range(total_notes//b_length):
+        bassline_notes.append(Note(
+            random.choice(octave_scale[0:16]), b_length))
     
-
-    if riff == 'bass_random':
-        bassline_notes = [Note(startnote, b_length)]
-        for i in range(total_notes//b_length):
-            bassline_notes.append(Note(
-                random.choice(octave_scale[0:16]), b_length))
-    elif riff == 'pop_1':
+    if riff == 'pop_1':
         bassline_notes = riff_1_N * riff_per_song
     elif riff == 'pop_1_inv':
         bassline_notes = riff_inv_1_N * riff_per_song
@@ -216,6 +214,8 @@ def bassline(startnote, song_length, riff='bass_random'):
         bassline_notes = riff_2_N * riff_per_song
     elif riff == 'pop_2_inv':
         bassline_notes = riff_inv_2_N * riff_per_song
+    else: # using bass_random or some misspelling
+        print('Using random bass line')
 
     bassline_notes.append(Note(startnote,2))
     bassline_notes.append(Note(startnote-12,2))
@@ -361,7 +361,10 @@ if __name__ == "__main__":
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
 
-    main('UpAllNight.mid', 'pop_1')
+    # main('UpAllNight.mid', 'pop_1')
+    # main('UpAllNight.mid', 'pop_2')
+    main('UpAllNight.mid', 'pop_2_inv')
+    # main('UpAllNight.mid', 'bass_random')
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
