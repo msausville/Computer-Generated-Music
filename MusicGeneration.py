@@ -195,15 +195,15 @@ def bassline(startnote, song_length, riff='bass_random'):
     # same but lower instead of higher
     riff_inv_1 = [startnote, startnote - 5, startnote - 3, startnote - 7]
     riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
-    riff_inv_1_full = [Note(thing, b_length) for thing in riff_inv_1]
+    riff_inv_1_N_full = [Note(thing, b_length) for thing in riff_inv_1]
     # I VI IV V:
     riff_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
     riff_2_N = [Note(stuff, b_length) for stuff in riff_2]
     riff_2_N_full = [Note(stuff, b_length) for stuff in riff_2]
     # Same but lower
     riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
-    riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
-    riff_inv_1_N_full = [Note(thing, b_length) for thing in riff_inv_1]
+    riff_inv_2_N = [Note(thing, b_length) for thing in riff_inv_2]
+    riff_inv_2_N_full = [Note(thing, b_length) for thing in riff_inv_1]
     for i in range(total_notes//b_length):
         # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
@@ -360,9 +360,7 @@ if __name__ == "__main__":
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
 
-    # 
     main('UpAllNight.mid', 'pop_1')
-
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
