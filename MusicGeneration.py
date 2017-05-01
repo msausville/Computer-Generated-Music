@@ -162,7 +162,7 @@ def con_to_int(note_list):
     return int_list
 
 
-def bassline(startnote, b_length, riff='bass_random'):
+def bassline(startnote, song_length, riff='bass_random'):
     """
     input: startnote, length of each note, type of riff.
     Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
@@ -171,9 +171,10 @@ def bassline(startnote, b_length, riff='bass_random'):
     - two algorythmic basslines, each with a variation
     All of these are returned as a list of note objects.
     """
+    b_length = 2
     # in beats, 4 beats per measure
-    song_beats = 32
-    song_measures = song_beats // 4
+    # song_beats = 32
+    song_measures = song_length # song_beats // 4
     measure_per_riff = b_length
     riff_per_song = song_measures // b_length
     # bass_repeats = song_beats // ((b_length*4)//4)
@@ -213,7 +214,7 @@ def bassline(startnote, b_length, riff='bass_random'):
         for i in range(riff_per_song):
             # print('extending')
             riff_1_N_full.extend(riff_1_N)
-        print('Your bassline: ', riff_1_N_full)
+        # print('Your bassline: ', riff_1_N_full)
         return riff_1_N_full
     elif riff == 'pop_1_inv':
         for i in range(riff_per_song):
@@ -244,7 +245,7 @@ def harmony_analysis(notes, startnote):
     pass
 
 
-def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_measures=12, pre_len=1):
     """takes a markov dict; returns a markov'd list of note objects"""
     # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
@@ -254,18 +255,18 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
     new_melody = [Note(start_note, new_durations[0])]
     num_beats = first_duration
     measure_counter = 0
-
+    n = 0
     # do this for as many beats as we want
-    for i in range(len_in_beats - pre_len):
+    while measure_counter < len_in_measures:
         next_note = -1
-        tone_options = mark_dict[new_intervals[i],]
+        tone_options = mark_dict[new_intervals[n], ]
         print(new_durations)
-        dur_options = dur_dict[new_durations[i]]
+        dur_options = dur_dict[new_durations[n]]
 
         # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
             next_interval = random.choice(tone_options)
-            next_note = new_melody[i].tone + next_interval
+            next_note = new_melody[n].tone + next_interval
         next_duration = random.choice(dur_options)
 
         # makes sure the next duration would finish a measure
@@ -289,6 +290,7 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         new_melody.append(Note(next_note, next_duration))
         new_intervals.append(next_interval)
         new_durations.append(next_duration)
+        n += 1
     return new_melody
 
 
@@ -329,19 +331,19 @@ def main(filename, user_picked_bassline='pop_1'):
         new_song_con, bmp, start_note = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(note_dict, duration_dict)
-
-        new_intervals = create_markov_chain(note_dict, duration_dict, 60)
+        song_length = 12  # in measures!
+        new_intervals = create_markov_chain(note_dict, duration_dict, start_note, song_length)
 
         """ To generate a bassline(start note, length of each note, riff type)
         use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
         """
-        b_length = 2
-        bassline_notes = bassline(start_note, b_length, user_picked_bassline)
+        bassline_notes = bassline(start_note, song_length, user_picked_bassline)
         # new_intervals = NewSong.intervals
 
         # print(type(new_intervals))
         # print(new_intervals)
     play_music(new_intervals, bassline_notes)
+
 
 if __name__ == "__main__":
 
