@@ -66,26 +66,29 @@ def play_music(list_of_notes, list_of_notes_2,bpm):
     # curr_note.beats = 1
     # curr_note.bpm = 100
     # curr_note.amp = 100
-    playing = True
+    playing_melody = True
+    playing_bass = True
     start = timer()
     note_start_time = start
     bass_start_time = start
     current_note_index = 0
     current_bass_index = 0
-    while playing:
+    while playing_melody or playing_bass:
         current_time = timer()
         if current_time - note_start_time > melody_note_wait:
-            melody_note_wait = play_note(list_of_notes[current_note_index],bpm)
-            note_start_time = current_time
-            current_note_index +=1
-            if current_note_index >= len(list_of_notes):
-                playing = False
+            if current_note_index<len(list_of_notes):
+                melody_note_wait = play_note(list_of_notes[current_note_index],bpm)
+                note_start_time = current_time
+                current_note_index +=1
+            else:
+                playing_melody = False
         if current_time - bass_start_time > bass_note_wait:
-            bass_note_wait = play_note(list_of_notes_2[current_bass_index],bpm)
-            bass_start_time = current_time
-            current_bass_index +=1
-            if current_bass_index > len(list_of_notes):
-                playing = False
+            if current_bass_index < len(list_of_notes_2):
+                bass_note_wait = play_note(list_of_notes_2[current_bass_index],bpm)
+                bass_start_time = current_time
+                current_bass_index +=1
+            else:
+                playing_bass = False
         # bass_note_wait = play_note(current_note_2)
 
 
