@@ -58,7 +58,7 @@ atexit.register(stop)  # stop all tracks when the program exits normally or is i
 beats_per_minute = 45
 
 
-def play_music(list_of_notes, list_of_notes_2):
+def play_music(list_of_notes, list_of_notes_2,bpm):
     melody_note_wait = 0
     bass_note_wait = 0
     # print(list_of_notes)
@@ -75,13 +75,13 @@ def play_music(list_of_notes, list_of_notes_2):
     while playing:
         current_time = timer()
         if current_time - note_start_time > melody_note_wait:
-            melody_note_wait = play_note(list_of_notes[current_note_index])
+            melody_note_wait = play_note(list_of_notes[current_note_index],bpm)
             note_start_time = current_time
             current_note_index +=1
             if current_note_index >= len(list_of_notes):
                 playing = False
         if current_time - bass_start_time > bass_note_wait:
-            bass_note_wait = play_note(list_of_notes_2[current_bass_index])
+            bass_note_wait = play_note(list_of_notes_2[current_bass_index],bpm)
             bass_start_time = current_time
             current_bass_index +=1
             if current_bass_index > len(list_of_notes):

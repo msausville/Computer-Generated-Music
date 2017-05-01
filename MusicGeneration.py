@@ -244,7 +244,7 @@ def harmony_analysis(notes, startnote):
     pass
 
 
-def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1,seed = 0):
     """takes a markov dict; returns a markov'd list of note objects"""
     # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
@@ -260,11 +260,15 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         next_note = -1
         tone_options = mark_dict[new_intervals[i],]
         print(new_durations)
-        dur_options = dur_dict[new_durations[i]]
+        dur_options = dur_dict.get(new_durations[i],(0.25,))
 
         # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
-            next_interval = random.choice(tone_options)
+            if len(tone_options) ==0:
+                next_interval = 0
+            else:
+                next_interval = random.choice(tone_options)
+                tone_options = tuple(x for x in tone_options if x != next_interval)
             next_note = new_melody[i].tone + next_interval
         next_duration = random.choice(dur_options)
 
@@ -310,12 +314,14 @@ def poss_notes(start_note, key_in='major'):
     return possible_notes
 
 
-def main(filename, user_picked_bassline='pop_1'):
+def main(filename, user_picked_bassline='pop_1',rand_seed = random.random()):
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
+    random.seed(rand_seed)
+    print(rand_seed)
     print(user_picked_bassline, filename)
     if type(filename) == 'list':
         list_of_songs = filename
@@ -326,11 +332,11 @@ def main(filename, user_picked_bassline='pop_1'):
     for song in list_of_songs:
         # cleaned = MIDI_clean(song)
         # new_song_con = MIDI_to_song(cleaned)
-        new_song_con, bmp, start_note = read_midi(filename)
+        new_song_con, bpm, start_note = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(note_dict, duration_dict)
 
-        new_intervals = create_markov_chain(note_dict, duration_dict, 60)
+        new_intervals = create_markov_chain(note_dict, duration_dict, 60, seed = rand_seed)
 
         """ To generate a bassline(start note, length of each note, riff type)
         use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
@@ -341,7 +347,9 @@ def main(filename, user_picked_bassline='pop_1'):
 
         # print(type(new_intervals))
         # print(new_intervals)
-    play_music(new_intervals, bassline_notes)
+    play_music(new_intervals, bassline_notes,bpm)
+    print(bpm)
+    print(rand_seed)
 
 if __name__ == "__main__":
 
