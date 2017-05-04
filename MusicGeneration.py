@@ -162,7 +162,7 @@ def con_to_int(note_list):
     return int_list
 
 
-def bassline(startnote, b_length, riff='bass_random'):
+def bassline(startnote, song_length, riff='bass_random'):
     """
     input: startnote, length of each note, type of riff.
     Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
@@ -171,9 +171,10 @@ def bassline(startnote, b_length, riff='bass_random'):
     - two algorythmic basslines, each with a variation
     All of these are returned as a list of note objects.
     """
+    b_length = 4
     # in beats, 4 beats per measure
-    song_beats = 32
-    song_measures = song_beats // 4
+    # song_beats = 32
+    song_measures = song_length  # song_beats // 4
     measure_per_riff = b_length
     riff_per_song = song_measures // b_length
     # bass_repeats = song_beats // ((b_length*4)//4)
@@ -186,54 +187,39 @@ def bassline(startnote, b_length, riff='bass_random'):
     octave_scale = [note - 12 for note in use_scale]
     # print('octaved scale: ', octave_scale)
     total_notes = len(octave_scale)
-    bassline_notes = [Note(startnote, b_length)]
+    
     # I V VI IV:
     riff_1 = [startnote, startnote + 7, startnote + 9, startnote + 5]
     riff_1_N = [Note(item, b_length) for item in riff_1]
-    riff_1_N_full = [Note(item, b_length) for item in riff_1]
     # same but lower instead of higher
     riff_inv_1 = [startnote, startnote - 5, startnote - 3, startnote - 7]
     riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
-    riff_inv_1_full = [Note(thing, b_length) for thing in riff_inv_1]
     # I VI IV V:
     riff_2 = [startnote, startnote + 9, startnote + 5, startnote + 7]
     riff_2_N = [Note(stuff, b_length) for stuff in riff_2]
-    riff_2_N_full = [Note(stuff, b_length) for stuff in riff_2]
     # Same but lower
     riff_inv_2 = [startnote, startnote - 3, startnote - 7, startnote - 5]
-    riff_inv_1_N = [Note(thing, b_length) for thing in riff_inv_1]
-    riff_inv_1_N_full = [Note(thing, b_length) for thing in riff_inv_1]
+    riff_inv_2_N = [Note(thing, b_length) for thing in riff_inv_2]
+    # randomely picks notes from a bottom section of the scale
+    bassline_notes = [Note(startnote, b_length)]
     for i in range(total_notes//b_length):
-        # randomely picks notes from a bottom section of the scale
         bassline_notes.append(Note(
             random.choice(octave_scale[0:16]), b_length))
-    if riff == 'bass_random':
-        return bassline_notes
-    elif riff == 'pop_1':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_1_N_full.extend(riff_1_N)
-        print('Your bassline: ', riff_1_N_full)
-        return riff_1_N_full
+    
+    if riff == 'pop_1':
+        bassline_notes = riff_1_N * riff_per_song
     elif riff == 'pop_1_inv':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_inv_1_N_full.extend(riff_inv_1_N)
-        return riff_inv_1_N_full
+        bassline_notes = riff_inv_1_N * riff_per_song
     elif riff == 'pop_2':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_2_N_full.extend(riff_2_N)
-        return riff_2_N_full
+        bassline_notes = riff_2_N * riff_per_song
     elif riff == 'pop_2_inv':
-        for i in range(riff_per_song):
-            # print('extending')
-            riff_inv_2_N_full.extend(riff_inv_2_N)
-        return riff_inv_2_N_full
-    # a = bassline(57, 4)
-    # b = [note.tone for note in a]
-    # print('notes in bassline: ', b)
+        bassline_notes = riff_inv_2_N * riff_per_song
+    else: # using bass_random or some misspelling
+        print('Using random bass line')
 
+    bassline_notes.append(Note(startnote,2))
+    bassline_notes.append(Note(startnote-12,2))
+    return bassline_notes
 
 def harmony_analysis(notes, startnote):
     """
@@ -244,7 +230,9 @@ def harmony_analysis(notes, startnote):
     pass
 
 
-def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre_len=1):
+
+def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_measures=12, pre_len=1):
+
     """takes a markov dict; returns a markov'd list of note objects"""
     # initialize some variables
     possible_notes = poss_notes(start_note, 'major')
@@ -254,18 +242,25 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
     new_melody = [Note(start_note, new_durations[0])]
     num_beats = first_duration
     measure_counter = 0
-
+    note_counter = 0
+    n = 0
     # do this for as many beats as we want
-    for i in range(len_in_beats - pre_len):
+    while measure_counter < len_in_measures:
         next_note = -1
-        tone_options = mark_dict[new_intervals[i],]
+        tone_options = mark_dict[new_intervals[n], ]
         print(new_durations)
-        dur_options = dur_dict[new_durations[i]]
+
+        dur_options = dur_dict.get(new_durations[n],(0.25,))
 
         # tone is right when it's in the possible notes list
         while next_note not in possible_notes:
-            next_interval = random.choice(tone_options)
-            next_note = new_melody[i].tone + next_interval
+            if len(tone_options) ==0:
+                next_interval = 0
+            else:
+                next_interval = random.choice(tone_options)
+                tone_options = tuple(x for x in tone_options if x != next_interval)
+            next_note = new_melody[n].tone + next_interval
+
         next_duration = random.choice(dur_options)
 
         # makes sure the next duration would finish a measure
@@ -289,6 +284,8 @@ def create_markov_chain(mark_dict, dur_dict, start_note=60, len_in_beats=32, pre
         new_melody.append(Note(next_note, next_duration))
         new_intervals.append(next_interval)
         new_durations.append(next_duration)
+        n += 1
+    new_melody.append(Note(start_note,8))
     return new_melody
 
 
@@ -310,12 +307,14 @@ def poss_notes(start_note, key_in='major'):
     return possible_notes
 
 
-def main(filename, user_picked_bassline='pop_1'):
+def main(filename, user_picked_bassline='pop_1',rand_seed = random.random()):
     """
     Performs Markov analysis on many songs and
     input: takes an input of all file names
     output: plays a song
     """
+    random.seed(rand_seed)
+    print(rand_seed)
     print(user_picked_bassline, filename)
     if type(filename) == 'list':
         list_of_songs = filename
@@ -326,22 +325,26 @@ def main(filename, user_picked_bassline='pop_1'):
     for song in list_of_songs:
         # cleaned = MIDI_clean(song)
         # new_song_con = MIDI_to_song(cleaned)
-        new_song_con, bmp, start_note = read_midi(filename)
+        new_song_con, bpm, start_note = read_midi(filename)
         NewSong = Song(new_song_con)
         NewSong.add_to_analysis(note_dict, duration_dict)
 
-        new_intervals = create_markov_chain(note_dict, duration_dict, 60)
+        song_length =  12  # in measures!
+        new_intervals = create_markov_chain(note_dict, duration_dict, start_note, song_length)
 
         """ To generate a bassline(start note, length of each note, riff type)
         use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
         """
-        b_length = 2
-        bassline_notes = bassline(start_note, b_length, user_picked_bassline)
+        bassline_notes = bassline(start_note, song_length, user_picked_bassline)
+        print(len(bassline_notes))
         # new_intervals = NewSong.intervals
 
         # print(type(new_intervals))
         # print(new_intervals)
-    play_music(new_intervals, bassline_notes)
+    play_music(new_intervals, bassline_notes,bpm)
+    print(bpm)
+    print(rand_seed)
+
 
 if __name__ == "__main__":
 
@@ -357,11 +360,19 @@ if __name__ == "__main__":
     # """
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
+<<<<<<< HEAD
     #Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
     # 
     main('BestSongEver.mid', 'pop_1_inv')
     
 
+=======
+
+    # main('UpAllNight.mid', 'pop_1')
+    # main('UpAllNight.mid', 'pop_2')
+    main('WhatMakesYouBeautiful.mid', 'pop_2_inv')
+    # main('UpAllNight.mid', 'bass_random')
+>>>>>>> master
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
