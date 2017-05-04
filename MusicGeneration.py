@@ -67,15 +67,15 @@ def check_metadata(single_track):
             bpm = mido.tempo2bpm(tempo)
         elif msg.type == 'key_signature':
             key = msg.key
-        
+
     return lyric_channel, bpm, tempo, key
-    
+
 
 def key_to_start_note(key):
     list_of_keys = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
     list_of_notes = [60,61,62,63,64,65,66,67,68,69,70,71]
     start_dict = dict(zip(list_of_keys,list_of_notes))
-    
+
     start_note = start_dict.get(key,60)
     return start_note
 
@@ -128,7 +128,7 @@ def read_midi(filename):
 
     for i, track in enumerate(mid.tracks):
         print('Track {}: {}'.format(i, track.name))
-        
+
         melody_channel, bpm, tempo, key = check_metadata(track)
         list_of_notes = track_to_list(track,ticksperbeat,tempo,melody_channel)
         start_note = key_to_start_note(key)
@@ -316,9 +316,7 @@ def main(filename, user_picked_bassline='pop_1'):
     input: takes an input of all file names
     output: plays a song
     """
-    startnote = 51
-    b_length = 2
-    print(user_picked_bassline,filename)
+    print(user_picked_bassline, filename)
     if type(filename) == 'list':
         list_of_songs = filename
     else:
@@ -333,10 +331,12 @@ def main(filename, user_picked_bassline='pop_1'):
         NewSong.add_to_analysis(note_dict, duration_dict)
 
         new_intervals = create_markov_chain(note_dict, duration_dict, 60)
+
         """ To generate a bassline(start note, length of each note, riff type)
         use Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
         """
-        bassline_notes = bassline(startnote, b_length, user_picked_bassline)
+        b_length = 2
+        bassline_notes = bassline(start_note, b_length, user_picked_bassline)
         # new_intervals = NewSong.intervals
 
         # print(type(new_intervals))
@@ -357,8 +357,11 @@ if __name__ == "__main__":
     # """
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
+
     # 
     main('TwinkleTwinkleLittleStar.mid', 'pop_1')
+    main('UpAllNight.mid', 'pop_1')
+
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
     # play_music()
