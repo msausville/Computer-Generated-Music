@@ -23,7 +23,7 @@ def profile():
 		#the call to the main function calls the MusicGeneration.py to make the song
 
 		if song == "The Best Song Ever":
-			main('WhatMakesYouBeautiful.mid',bassline)
+			main('UpAllNight.mid',bassline)
 			pic = "https://i.kinja-img.com/gawker-media/image/upload/s--qn6H3zL3--/c_scale,fl_progressive,q_80,w_800/jiszvtpozcrbbzxrxmq6.jpg"
 		elif song == "Twinkle Twinkle Little Star":
 			main('TwinkleTwinkleLittleStar.mid',bassline)
