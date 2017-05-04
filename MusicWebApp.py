@@ -2,7 +2,6 @@
 This is the page setting up the webapp for Olin College Software Design Project: Music Generation 
 The there are two HTML tempates assocaited with this web app:
 Toolbox.HTML and UserInterface.HTML.
-
 In order to run, you must download and open "SONIC PI" 
 """
 

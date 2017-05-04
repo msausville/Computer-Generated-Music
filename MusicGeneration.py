@@ -363,7 +363,7 @@ if __name__ == "__main__":
 
     # main('UpAllNight.mid', 'pop_1')
     # main('UpAllNight.mid', 'pop_2')
-    main('UpAllNight.mid', 'pop_2_inv')
+    main('WhatMakesYouBeautiful.mid', 'pop_2_inv')
     # main('UpAllNight.mid', 'bass_random')
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
