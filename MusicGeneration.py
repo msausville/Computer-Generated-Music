@@ -357,10 +357,10 @@ if __name__ == "__main__":
     # """
     # a = bassline(51, 2, 'pop_1')
     # print('Bassline ', a )
-
+    #Riff options: bass_random, pop_1, pop_2, pop_1_inv, pop_2_inv
     # 
-    main('TwinkleTwinkleLittleStar.mid', 'pop_1')
-    main('UpAllNight.mid', 'pop_1')
+    main('BestSongEver.mid', 'pop_1_inv')
+    
 
 
     #main('TwinkleTwinkleLittleStar.mid, WhatMakesYouBeautiful.mid')
