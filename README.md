@@ -64,15 +64,13 @@ https://allisonlynnbasore14.github.io/ComputerMusic/
 
 ***** 
 
-# Computer-Generated-Music
-A team in softdes is making a program that can create its own melodies
-GO TEAM!!! :)
+## Computer-Generated-Music
+A team in softdes is making a program that can create its own melodies!
 
-
-## Project Proposal:
+#### Project Proposal:
 https://docs.google.com/document/d/1BP6RWqidqj7oUxgPIdlJMR34AXTERQlXsyrozAOwgho/edit
 
-## Demo Poster
+#### Demo Poster
 https://drive.google.com/file/d/0B5W6DLcqGykmd0hCekhjd2xhZ28/view?usp=sharing
 
 
