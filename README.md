@@ -72,10 +72,10 @@ A team in softdes is making a program that can create its own melodies!
 https://docs.google.com/document/d/1BP6RWqidqj7oUxgPIdlJMR34AXTERQlXsyrozAOwgho/edit
 
 #### Architecture Review Preparation Document
-
+https://docs.google.com/document/d/1S1Xfx-8MwrezBBTXrfYeTBAUuoLNLSFbM52ggaopKfU/edit?usp=sharing
 
 #### Architecture Review Document
-
+https://docs.google.com/document/d/1fhZUMatJ4qbuw84fOJzqrViZ0bL6hbwXHX93jwe5op4/edit?usp=sharing
 
 #### Demo Poster
 https://drive.google.com/file/d/0B5W6DLcqGykmd0hCekhjd2xhZ28/view?usp=sharing
